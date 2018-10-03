@@ -7,9 +7,15 @@ import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.glacier.discordbot.commands.CommandHandler;
+import com.glacier.discordbot.commands.OrdinaryYoutubePlayer;
+import com.glacier.discordbot.lavaplayer.GuildMusicManager;
+import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
+
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
 
@@ -77,7 +83,30 @@ public class UtilsAndConstants {
                 System.err.println("Message could not be sent, timestamp " + DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss").format(LocalDateTime.now()) + " and following trace");
                 e.printStackTrace();
             }
+            catch(NullPointerException ex)
+            {
+            	System.err.println("NullPointerException, timestamp " + DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss").format(LocalDateTime.now()) + " and following trace");
+                ex.printStackTrace();
+            }
         });
 
+    }
+
+	public static synchronized GuildMusicManager getGuildAudioPlayer(IGuild guild) {
+        long guildId = guild.getLongID();
+        GuildMusicManager musicManager = CommandHandler.musicManagers.get(guildId);
+
+        if (musicManager == null) {
+            musicManager = new GuildMusicManager(new DefaultAudioPlayerManager());
+            CommandHandler.musicManagers.put(guildId, musicManager);
+        }
+/*
+	if there's no music managers for the given guild id in the hashmap,put one in there
+	I might just have this return a new GuildMusicManager every time and dispose of the hashmap, since that hashmap shouldn't (in theory) persist anyway since we're making a new instance of this class every time the command is called
+	if it works like this, I'll make the change and see if it continues to work
+*/
+        guild.getAudioManager().setAudioProvider(musicManager.getAudioProvider());
+
+        return musicManager;
     }
 }

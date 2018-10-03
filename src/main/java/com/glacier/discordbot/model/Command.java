@@ -1,4 +1,4 @@
-package com.glacier.discordbot.commands;
+package com.glacier.discordbot.model;
 
 import java.util.List;
 
