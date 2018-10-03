@@ -29,6 +29,8 @@ public class CommandHandler {
     	//I suppose since commandMap has to be static, 
     	//the placement of said commands have to be static
     	commandMap.put("say", new TalkBack());
+    	commandMap.put("join", new JoinUser());
+    	commandMap.put("leave", new LeaveUser());
     	commandMap.put("yt", new OrdinaryYoutubePlayer());
     	//note that the yt command takes youtube URLS
     	commandMap.put("skip", new SkipTrack());
