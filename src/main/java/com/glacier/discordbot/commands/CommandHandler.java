@@ -33,6 +33,7 @@ public class CommandHandler {
     	commandMap.put("leave", new LeaveUser());
     	commandMap.put("yt", new OrdinaryYoutubePlayer());
     	//note that the yt command takes youtube URLS
+    	commandMap.put("glacier", new GlacierYoutubePlayer());
     	commandMap.put("skip", new SkipTrack());
     	/*
     	 * the current plan for the actual play my videos command is pulling in the youtube api
