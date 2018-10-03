@@ -22,3 +22,5 @@ target/
 .DS_Store
 .reccomenders
 .recommenders
+.properties
+youtube.properties

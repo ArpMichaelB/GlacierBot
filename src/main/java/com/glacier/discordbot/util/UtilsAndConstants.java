@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.glacier.discordbot.commands.CommandHandler;
-import com.glacier.discordbot.commands.OrdinaryYoutubePlayer;
 import com.glacier.discordbot.lavaplayer.GuildMusicManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 
@@ -21,7 +20,8 @@ import sx.blah.discord.util.RequestBuffer;
 
 public class UtilsAndConstants {
 	public static String BOT_PREFIX = "~";
-	
+	public static final String PROPERTIES_FILENAME = "youtube.properties";	
+	public static final String BEGINNING_PIECE_OF_URL = "http://www.youtube.com/watch?v=";
 	
 	public static void setErrorToLog() {
 		File logFolder = new File("C:\\Glacier Nester\\logs");
