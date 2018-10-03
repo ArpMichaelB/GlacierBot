@@ -1,8 +1,6 @@
 package com.glacier.discordbot.commands;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.glacier.discordbot.lavaplayer.GuildMusicManager;
 import com.glacier.discordbot.model.Command;
@@ -29,17 +27,8 @@ public class OrdinaryYoutubePlayer implements Command {
 		IChannel textChannel = event.getChannel();
 		if(voiceChannel == null)
 		{
-			IVoiceChannel userVoiceChannel = event.getAuthor().getVoiceStateForGuild(event.getGuild()).getChannel();
-
-	        if(userVoiceChannel == null)
-	        {
-	        	UtilsAndConstants.sendMessage(textChannel, "Join a voice channel, and try again.");
-	        	return;
-	        }
-
-	        userVoiceChannel.join();
+			new JoinUser().runCommand(event, arguments);
 		}
-        //if the bot isn't in a voice channel, join the one the user is in
         
 		//Turn the args back into a string separated by space
         String searchStr = String.join(" ", arguments);
