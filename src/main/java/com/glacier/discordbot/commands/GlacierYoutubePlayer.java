@@ -1,5 +1,7 @@
 package com.glacier.discordbot.commands;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -33,7 +35,9 @@ public class GlacierYoutubePlayer implements Command {
 		
 		Properties properties = new Properties();
         try {
-            InputStream in = Search.class.getResourceAsStream("/" + UtilsAndConstants.PROPERTIES_FILENAME);
+        	ClassLoader classLoader = getClass().getClassLoader();
+        	File propertiesFile = new File(classLoader.getResource(UtilsAndConstants.PROPERTIES_FILENAME).getFile());
+            InputStream in = new FileInputStream(propertiesFile);
             properties.load(in);
 
         } catch (IOException e) {
