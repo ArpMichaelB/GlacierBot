@@ -12,6 +12,8 @@ public class SkipTrack implements Command {
 
 	@Override
 	public void runCommand(MessageReceivedEvent event, List<String> arguments) {
+		
+		//TODO: Add the ability to use arguments to skip more than 1 track
 		GuildMusicManager musicManager = UtilsAndConstants.getGuildAudioPlayer(event.getChannel().getGuild());
         musicManager.getScheduler().nextTrack();
         UtilsAndConstants.sendMessage(event.getChannel(), "Skipped to next track.");

@@ -32,6 +32,8 @@ public class GlacierYoutubePlayer implements Command {
 
 		//in a similar way to the base of the bot, I'm borrowing from the sample code provided by youtube
 		
+		//TODO: insert an embedded message that allows one to pick which search result they want to hear
+		
 		Properties properties = new Properties();
         try {
         	ClassLoader classLoader = getClass().getClassLoader();

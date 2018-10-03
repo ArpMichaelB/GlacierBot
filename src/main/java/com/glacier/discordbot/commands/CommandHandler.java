@@ -31,18 +31,10 @@ public class CommandHandler {
     	commandMap.put("say", new TalkBack());
     	commandMap.put("join", new JoinUser());
     	commandMap.put("leave", new LeaveUser());
+    	//TODO: rebind and rename this to play/OrdinaryPlayer since it doesn't just play youtube urls 
     	commandMap.put("yt", new OrdinaryYoutubePlayer());
-    	//note that the yt command takes youtube URLS
     	commandMap.put("glacier", new GlacierYoutubePlayer());
     	commandMap.put("skip", new SkipTrack());
-    	/*
-    	 * the current plan for the actual play my videos command is pulling in the youtube api
-    	 * since you can limit your searches to specific users with that
-    	 * in order to get the urls that we then pass on to lavaplayer
-    	 * alternatively we can do it the hard way, i.e. have a json file with each title as a key and url as a value
-    	 * but that's a lot of manual work and would require almost literally daily updates which is rough
-    	 * so let's hope we can use the youtube api
-    	 */
     }
     
 	@EventSubscriber
