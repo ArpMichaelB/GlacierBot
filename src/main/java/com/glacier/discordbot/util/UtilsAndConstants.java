@@ -22,8 +22,20 @@ public class UtilsAndConstants {
 	public static String BOT_PREFIX = "~";
 	public static final String PROPERTIES_FILENAME = "youtube.properties";	
 	public static final String BEGINNING_PIECE_OF_URL = "http://www.youtube.com/watch?v=";
+	//public static Logger logger = LoggerFactory.getLogger(App.class);
+	//I'm going to persist in using system.err for my logging because I don't need anything special
+	//additionally adding this logger didn't solve the "Defaulting to slf4j" didn't fix anything
+	//so I'm not going to include it, just leave this commented in line as a reminder
 	
-	public static void setErrorToLog() {
+	public static void setupLogFiles()
+	{
+		setOutToLogFile();
+		setErrorToLogFile();
+	}
+	
+	
+	private static void setOutToLogFile() {
+		// TODO Auto-generated method stub
 		File logFolder = new File("C:\\Glacier Nester\\logs");
     	File file = null;
     	if(!logFolder.exists())
@@ -41,8 +53,37 @@ public class UtilsAndConstants {
     	try {
 	    	FileOutputStream fos = new FileOutputStream(file);
 			PrintStream ps = new PrintStream(fos);
+			System.setOut(ps);
+			System.out.println("Started GlacierBot at (roughly) " + DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss").format(LocalDateTime.now()));
+    	}
+    	catch(IOException ex)
+    	{
+    		System.err.println("Oh dear, making the log failed. That's an issue!");
+    	}
+	}
+
+
+	private static void setErrorToLogFile() {
+		
+		File logFolder = new File("C:\\Glacier Nester\\logs");
+    	File file = null;
+    	if(!logFolder.exists())
+    	{
+    		logFolder.setWritable(true);
+    		if(logFolder.mkdirs())
+    		{
+    			file = new File("C:\\Glacier Nester\\logs\\GlacierBotErrors.log");
+    		}
+    	}
+    	else
+    	{
+    		file = new File("C:\\Glacier Nester\\logs\\GlacierBotErrors.log");
+    	}
+    	try {
+	    	FileOutputStream fos = new FileOutputStream(file);
+			PrintStream ps = new PrintStream(fos);
 			System.setErr(ps);
-			System.err.println("Started GlacierBot at " + DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss").format(LocalDateTime.now()));
+			System.err.println("Started GlacierBot at (roughly)" + DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss").format(LocalDateTime.now()));
     	}
     	catch(IOException ex)
     	{

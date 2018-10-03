@@ -1,5 +1,7 @@
 package com.glacier.discordbot.commands;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.glacier.discordbot.lavaplayer.GuildMusicManager;
@@ -12,10 +14,18 @@ public class SkipTrack implements Command {
 
 	@Override
 	public void runCommand(MessageReceivedEvent event, List<String> arguments) {
-		
-		//TODO: Add the ability to use arguments to skip more than 1 track
+			
+		int counter = 1;
 		GuildMusicManager musicManager = UtilsAndConstants.getGuildAudioPlayer(event.getChannel().getGuild());
-        musicManager.getScheduler().nextTrack();
+        if(arguments.get(0).matches("\\d"))
+        {
+        	counter = Integer.parseInt(arguments.get(0));
+        }
+        for(int i = 0; i<counter;i++)
+        {
+        	musicManager.getScheduler().nextTrack();
+        	System.out.println("Track skipped at " + DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss").format(LocalDateTime.now()));
+        }
         UtilsAndConstants.sendMessage(event.getChannel(), "Skipped to next track.");
 
 	}

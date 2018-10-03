@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -33,6 +35,8 @@ public class GlacierYoutubePlayer implements Command {
 		//in a similar way to the base of the bot, I'm borrowing from the sample code provided by youtube
 		
 		//TODO: insert an embedded message that allows one to pick which search result they want to hear
+		
+		System.out.println("Started Channel Specific Search at " + DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss").format(LocalDateTime.now()));
 		
 		Properties properties = new Properties();
         try {
@@ -79,7 +83,7 @@ public class GlacierYoutubePlayer implements Command {
             //given this youtube url, we can just call the ordinary youtube player now
             ArrayList<String> temp = new ArrayList<String>();
             temp.add(youtubeURL);
-            new OrdinaryYoutubePlayer().runCommand(event, temp);
+            new OrdinaryPlayer().runCommand(event, temp);
         }
         catch (GoogleJsonResponseException e) {
             System.err.println("There was a service error: " + e.getDetails().getCode() + " : "

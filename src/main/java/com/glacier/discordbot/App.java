@@ -16,7 +16,7 @@ public class App
 {
     public static void main( String[] args )
     {
-    	UtilsAndConstants.setErrorToLog();
+    	UtilsAndConstants.setupLogFiles();
     	if(args.length != 1){
             System.err.println("Please enter the bots token as the first argument e.g java -jar thisjar.jar tokenhere");
             return;

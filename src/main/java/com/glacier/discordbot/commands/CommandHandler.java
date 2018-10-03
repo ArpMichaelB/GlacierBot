@@ -31,16 +31,14 @@ public class CommandHandler {
     	commandMap.put("say", new TalkBack());
     	commandMap.put("join", new JoinUser());
     	commandMap.put("leave", new LeaveUser());
-    	//TODO: rebind and rename this to play/OrdinaryPlayer since it doesn't just play youtube urls 
-    	commandMap.put("yt", new OrdinaryYoutubePlayer());
+    	commandMap.put("play", new OrdinaryPlayer());
     	commandMap.put("glacier", new GlacierYoutubePlayer());
     	commandMap.put("skip", new SkipTrack());
     }
     
 	@EventSubscriber
     public void onMessageReceived(MessageReceivedEvent event) {
-		//TODO: add slf4j to point all the logging at the intended file, since this doesn't like me using system.err
-        //If there's an error, we'll be outputting about it to the log file
+		//If there's an error, we'll be outputting about it to the log file
 		//At least initially
 		//Eventually, I'll look into messaging the user which tried to make the command 
 		//and send them their error/a help dialog

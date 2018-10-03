@@ -1,5 +1,7 @@
 package com.glacier.discordbot.commands;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.glacier.discordbot.audiohandlers.OrdinaryYoutubeResultHandler;
@@ -14,7 +16,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IVoiceChannel;
 
-public class OrdinaryYoutubePlayer implements Command {
+public class OrdinaryPlayer implements Command {
 
 	public static final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
     @Override
@@ -33,6 +35,8 @@ public class OrdinaryYoutubePlayer implements Command {
         GuildMusicManager musicManager = UtilsAndConstants.getGuildAudioPlayer(voiceChannel.getGuild());
         //get the queue manager for the channel the bot's in
 
+        System.out.println("Playing item " + searchStr + " at " + DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss").format(LocalDateTime.now()));
+        
         playerManager.loadItemOrdered(musicManager, searchStr,
     		new OrdinaryYoutubeResultHandler(textChannel,musicManager,searchStr));
         
