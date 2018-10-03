@@ -2,6 +2,7 @@ package com.glacier.discordbot.commands;
 
 import java.util.List;
 
+import com.glacier.discordbot.audiohandlers.OrdinaryYoutubeResultHandler;
 import com.glacier.discordbot.lavaplayer.GuildMusicManager;
 import com.glacier.discordbot.model.Command;
 import com.glacier.discordbot.util.UtilsAndConstants;
@@ -37,42 +38,7 @@ public class OrdinaryYoutubePlayer implements Command {
         //get the queue manager for the channel the bot's in
 
         playerManager.loadItemOrdered(musicManager, searchStr,
-    		new AudioLoadResultHandler() {
-	            @Override
-	            public void trackLoaded(AudioTrack track) {
-	                UtilsAndConstants.sendMessage(textChannel, "Adding to queue " + track.getInfo().title);
-	                musicManager.getScheduler().queue(track);
-	                //on the track loading, send a message that the track's been added to the queue
-	                //and then add it to the queue
-	            }
-	
-	            @Override
-	            public void playlistLoaded(AudioPlaylist playlist) {
-	                AudioTrack firstTrack = playlist.getSelectedTrack();
-	
-	                if (firstTrack == null) {
-	                    firstTrack = playlist.getTracks().get(0);
-	                }
-	
-	                UtilsAndConstants.sendMessage(textChannel, "Adding to queue " + firstTrack.getInfo().title + " (first/chosen track of playlist " + playlist.getName() + ")");
-	
-	                musicManager.getScheduler().queue(firstTrack);
-	                //on loading of a playlist, add the selected track of it to the queue
-	                //if no track's selected, add the first track
-	            }
-	
-	            @Override
-	            public void noMatches() {
-	                UtilsAndConstants.sendMessage(textChannel, "Nothing found from " + searchStr);
-	                //if nothing matched the string they asked for, point that out
-	            }
-
-	            @Override
-	            public void loadFailed(FriendlyException exception) {
-	                UtilsAndConstants.sendMessage(textChannel, "Could not play: " + exception.getMessage());
-	            }
-        	});
-        //TODO: get rid of this inline declaration, perhaps make a class that extends AudioLoadResultHandler
-        //a la how we have individual command classes implementing the command class
+    		new OrdinaryYoutubeResultHandler(textChannel,musicManager,searchStr));
+        
 	}
 }
