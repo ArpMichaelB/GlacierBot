@@ -1,8 +1,6 @@
 package com.glacier.discordbot.commands;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.glacier.discordbot.lavaplayer.GuildMusicManager;
 import com.glacier.discordbot.model.Command;
