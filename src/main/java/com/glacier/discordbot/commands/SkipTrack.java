@@ -28,7 +28,7 @@ public class SkipTrack implements Command {
         	musicManager.getScheduler().nextTrack();
         	System.out.println("Track skipped at the reqeust of " + event.getAuthor().getName() + " at " + UtilsAndConstants.getCurrentTimestamp());
         }
-        UtilsAndConstants.sendMessage(event.getChannel(), "Skipped to " + counter + " th track.");
+        UtilsAndConstants.sendMessage(event.getChannel(), "Skipped " + counter + " tracks.");
 
 	}
 

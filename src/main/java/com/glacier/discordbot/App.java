@@ -6,11 +6,11 @@ import com.glacier.discordbot.util.UtilsAndConstants;
 import sx.blah.discord.api.IDiscordClient;
 
 /**
- * Overall, this bot is using the D4J example bot as a base, which I then build upon.
- * The major work which reflects my own efforts is in the response to the commands, 
- * rather than what wraps around them to make it interact with discord
- * Comparison with the code available at https://github.com/decyg/d4jexamplebot 
- * will make the difference between my work and what I've been borrowing incredibly evident
+ * As the project continues, I think I've stepped far enough away from the example discord bot to call this code entirely my own
+ * but I will state that the starting point for this project was the example bot found at https://github.com/decyg/d4jexamplebot
+ * There are bits and pieces that remain of it if you look closely
+ * but I've layered in enough changes that I'd say this is essentially all mine now
+ * @author Michael Arp (aka Glacier Nester)
  */
 public class App 
 {
