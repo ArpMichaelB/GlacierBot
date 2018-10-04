@@ -1,7 +1,5 @@
 package com.glacier.discordbot.commands;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -74,7 +72,7 @@ public class CommandHandler {
             commandMap.get(commandStr).runCommand(event, argsList);
         else
         {
-        	System.err.println("Failed command " + commandStr + " at " + DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss").format(LocalDateTime.now()));
+        	System.err.println("Failed command " + commandStr + " at " + UtilsAndConstants.getCurrentTimestamp());
         }
     }
 }

@@ -1,5 +1,13 @@
 package com.glacier.discordbot;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Properties;
+
 import com.glacier.discordbot.commands.CommandHandler;
 import com.glacier.discordbot.util.UtilsAndConstants;
 
@@ -17,12 +25,19 @@ public class App
     public static void main( String[] args )
     {
     	UtilsAndConstants.setupLogFiles();
-    	if(args.length != 1){
-            System.err.println("Please enter the bots token as the first argument e.g java -jar thisjar.jar tokenhere");
-            return;
+    	
+    	if(UtilsAndConstants.properties == null)
+    	{
+    		System.err.println("Error, no properties file found. Cancelling launch at " + UtilsAndConstants.getCurrentTimestamp());
+    		return;
+    	}
+    	else if(!UtilsAndConstants.properties.containsKey("discord.key"))
+        {
+        	System.err.println("Error, no discord token found. Cancelling Launch at " + UtilsAndConstants.getCurrentTimestamp());
+        	return;
         }
-
-        IDiscordClient cli = UtilsAndConstants.getBuiltDiscordClient(args[0]);
+        
+        IDiscordClient cli = UtilsAndConstants.getBuiltDiscordClient(UtilsAndConstants.properties.getProperty("discord.key"));
 
         // Register a listener via the EventSubscriber annotation which allows for organisation and delegation of events
         cli.getDispatcher().registerListener(new CommandHandler());

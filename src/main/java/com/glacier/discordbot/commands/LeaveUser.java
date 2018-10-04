@@ -26,6 +26,7 @@ public class LeaveUser implements Command {
         scheduler.nextTrack();
 
         voiceChannel.leave();
+        System.out.println("Left voice channel " + voiceChannel.getName() + " at " + UtilsAndConstants.getCurrentTimestamp() + " thanks to " + event.getAuthor().getName());
 	}
 
 }

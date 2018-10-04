@@ -1,7 +1,5 @@
 package com.glacier.discordbot.commands;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.glacier.discordbot.lavaplayer.GuildMusicManager;
@@ -24,7 +22,7 @@ public class SkipTrack implements Command {
         for(int i = 0; i<counter;i++)
         {
         	musicManager.getScheduler().nextTrack();
-        	System.out.println("Track skipped at " + DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss").format(LocalDateTime.now()));
+        	System.out.println("Track skipped at the reqeust of " + event.getAuthor().getName() + " at " + UtilsAndConstants.getCurrentTimestamp());
         }
         UtilsAndConstants.sendMessage(event.getChannel(), "Skipped to next track.");
 

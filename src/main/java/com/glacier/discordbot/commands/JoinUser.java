@@ -24,6 +24,7 @@ public class JoinUser implements Command {
 	        }
 
 	        userVoiceChannel.join();
+	        System.out.println("Joined channel " + userVoiceChannel.getName() + " at " + UtilsAndConstants.getCurrentTimestamp() + " thanks to " + event.getAuthor().getName());
 		}
 	}
 

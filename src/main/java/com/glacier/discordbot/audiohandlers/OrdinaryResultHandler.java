@@ -9,13 +9,13 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 import sx.blah.discord.handle.obj.IChannel;
 
-public class OrdinaryYoutubeResultHandler implements AudioLoadResultHandler {
+public class OrdinaryResultHandler implements AudioLoadResultHandler {
 	
 	private IChannel textChannel;
 	private GuildMusicManager musicManager;
 	private String searchStr;
 	
-	public OrdinaryYoutubeResultHandler(IChannel textChannel, GuildMusicManager musicManager, String searchStr)
+	public OrdinaryResultHandler(IChannel textChannel, GuildMusicManager musicManager, String searchStr)
 	{
 		this.textChannel = textChannel;
 		this.musicManager = musicManager;
