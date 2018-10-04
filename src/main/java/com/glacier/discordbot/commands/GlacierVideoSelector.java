@@ -1,8 +1,10 @@
 package com.glacier.discordbot.commands;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.glacier.discordbot.model.Command;
 import com.glacier.discordbot.util.UtilsAndConstants;
@@ -17,8 +19,13 @@ import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.impl.obj.ReactionEmoji;
+import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.util.EmbedBuilder;
+import sx.blah.discord.util.MessageHistory;
+import sx.blah.discord.util.RequestBuffer;
 
-public class GlacierYoutubePlayer implements Command {
+public class GlacierVideoSelector implements Command {
 
 	
 	private static YouTube Youtube;
@@ -27,8 +34,6 @@ public class GlacierYoutubePlayer implements Command {
 	public void runCommand(MessageReceivedEvent event, List<String> arguments) {
 
 		//in a similar way to the base of the bot, I'm borrowing from the sample code provided by youtube
-		
-		//TODO: insert an embedded message that allows one to pick which search result they want to hear
 		
 		System.out.println("Started Channel Specific Search at " + UtilsAndConstants.getCurrentTimestamp());
 		
@@ -47,7 +52,7 @@ public class GlacierYoutubePlayer implements Command {
         	//we make a search:list object
         	search.setKey(UtilsAndConstants.properties.getProperty("youtube.apikey"));
         	search.setType("video");
-        	search.setFields("items(id/videoId)");
+        	search.setFields("items(id/videoId,snippet/title)");
         	search.setChannelId(UtilsAndConstants.properties.getProperty("youtube.channelid"));
         	search.setQ(String.join(" ", arguments));
         	//then set it's properties appropriately
@@ -57,22 +62,42 @@ public class GlacierYoutubePlayer implements Command {
         	//and finally, the query string
         	SearchListResponse searchResponse = search.execute();
             List<SearchResult> searchResultList = searchResponse.getItems();
-            /* so I'm thinking 
-             * we'll make an embedded message that contains, visible to the user, 
-             * the titles of the video (we'll have to change the search fields a bit)
-             * these titles will be links to the videos themselves,
-             * and the links in these titles will be what the reaction add Event uses to call the play command
-             * if not in code then by sending the message
-             * */
-            SearchResult singleVideo = searchResultList.get(0);
-            ResourceId rId = singleVideo.getId();
-            String videoID = rId.getVideoId();
-            //then we execute the search, and pull out the first video id that occurs
-            String youtubeURL = UtilsAndConstants.BEGINNING_PIECE_OF_URL + videoID;
-            //given this youtube url, we can just call the ordinary youtube player now
-            ArrayList<String> temp = new ArrayList<String>();
-            temp.add(youtubeURL);
-            new OrdinaryPlayer().runCommand(event, temp);
+            Map<String,String> details = new HashMap<String,String>();
+            for(int i = 0; i<5;i++)
+            {
+            	if(searchResultList.size()>i)
+            	{
+		            SearchResult singleVideo = searchResultList.get(i);
+		            ResourceId rId = singleVideo.getId();
+		            String videoID = rId.getVideoId();
+		            String title = singleVideo.getSnippet().getTitle();
+		            //then we execute the search, and pull out the first 5 video ids and titles
+		            //as long as there are 5 to get
+		            //if there's less just get all of them
+		            String youtubeURL = UtilsAndConstants.BEGINNING_PIECE_OF_URL + videoID;
+		            details.put(title, youtubeURL);
+            	}
+            }
+            EmbedBuilder messageBuilder = new EmbedBuilder();
+            messageBuilder.withAuthorName("GlacierBot");
+            messageBuilder.withTitle("Choose a Video");
+            messageBuilder.appendDescription("Click the reaction number which matches the video you want to watch.");
+            int counter = 1;
+            for (Entry<String, String> entry : details.entrySet()) {
+        		messageBuilder.appendField(counter + ". " + entry.getKey(),"[video link]("+entry.getValue() + ")",false);
+        		counter++;
+        	}
+            RequestBuffer.request(() -> event.getChannel().sendMessage(messageBuilder.build()));
+            //normally I'd call the util method to send the message
+            //but the messageBuilder doesn't return a string so I have to do it manually here
+            
+            /*
+             * Basically, send an embedded message with all the data
+             * then, something that senses the embedding of the message will react
+             * then another react handling command looks for the user hitting that reaction
+             * and either passes the url onto the ordinary player
+             * or plays that link itself
+             */
         }
         catch (GoogleJsonResponseException e) {
             System.err.println("There was an error in the Youtube Service: " + e.getDetails().getCode() + " : "

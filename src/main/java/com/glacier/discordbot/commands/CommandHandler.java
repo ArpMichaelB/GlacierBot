@@ -9,9 +9,17 @@ import java.util.Map;
 import com.glacier.discordbot.lavaplayer.GuildMusicManager;
 import com.glacier.discordbot.model.Command;
 import com.glacier.discordbot.util.UtilsAndConstants;
+import com.vdurmont.emoji.Emoji;
+import com.vdurmont.emoji.EmojiManager;
 
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageUpdateEvent;
+import sx.blah.discord.handle.obj.IEmbed;
+import sx.blah.discord.handle.obj.IEmbed.IEmbedField;
+import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.util.MessageHistory;
+import sx.blah.discord.util.RequestBuffer;
 
 public class CommandHandler {
 	
@@ -21,6 +29,7 @@ public class CommandHandler {
     public static final Map<Long, GuildMusicManager> musicManagers  = new HashMap<>();
 	
     //TODO: set up this command map to contain the commands
+    //TODO: set up the reactionEvent handler
     
     static
     {
@@ -30,8 +39,37 @@ public class CommandHandler {
     	commandMap.put("join", new JoinUser());
     	commandMap.put("leave", new LeaveUser());
     	commandMap.put("play", new OrdinaryPlayer());
-    	commandMap.put("glacier", new GlacierYoutubePlayer());
+    	commandMap.put("glacier", new GlacierVideoSelector());
     	commandMap.put("skip", new SkipTrack());
+    }
+    
+    @EventSubscriber
+    public void onMessageEmbedded(MessageUpdateEvent event)
+    {
+        if(event.getMessage().getAuthor() == event.getChannel().getClient().getOurUser())
+    	{
+    		System.out.println("Detected Self Author at " + UtilsAndConstants.getCurrentTimestamp());
+    		MessageHistory history = event.getChannel().getMessageHistory();
+    		IMessage message = history.getLatestMessage();
+    		IEmbed embeddedMessage = message.getEmbeds().get(0);
+    		if(embeddedMessage.getEmbedFields().get(0).getName().contains("1. "))
+    		{
+    			//if the embedded message contains the given string, run through the whole thing and react with the appropriate reaction
+	    		int counter = 1;
+    			for(IEmbedField data : embeddedMessage.getEmbedFields())
+	    		{
+	    			System.out.println(data.getName() + " is what the user sees");
+	    			System.out.println(data.getValue() + " is the URL");	    			
+	    			Emoji reaction = EmojiManager.getForAlias(UtilsAndConstants.translateToEmoji(counter));
+	    			RequestBuffer.request(() -> {
+	    				message.addReaction(reaction);
+	    			});
+	    			//essentially requestbuffer makes the bot wait until it is able to do the thing, then does it
+	    			//Like sending a message, I might make this a method in utils and constants 
+	    			counter++;
+	    		}
+    		}
+    	}
     }
     
 	@EventSubscriber
