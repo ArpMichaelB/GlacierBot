@@ -55,7 +55,6 @@ public class UtilsAndConstants {
 	
 	
 	private static void setOutToLogFile() {
-		// TODO Auto-generated method stub
 		File logFolder = new File("C:\\Glacier Nester\\logs");
     	File file = null;
     	if(!logFolder.exists())

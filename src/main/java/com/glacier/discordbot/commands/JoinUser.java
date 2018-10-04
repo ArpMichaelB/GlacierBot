@@ -24,7 +24,7 @@ public class JoinUser implements Command {
 	        }
 
 	        userVoiceChannel.join();
-	        System.out.println("Joined channel " + userVoiceChannel.getName() + " at " + UtilsAndConstants.getCurrentTimestamp() + " thanks to " + event.getAuthor().getName());
+	      //since it already logs when voice socket is connected/disconnected by default, we don't need to log this event in the log file
 		}
 	}
 

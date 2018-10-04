@@ -13,18 +13,22 @@ public class SkipTrack implements Command {
 	@Override
 	public void runCommand(MessageReceivedEvent event, List<String> arguments) {
 			
-		int counter = 1;
+		int counter = 0;
 		GuildMusicManager musicManager = UtilsAndConstants.getGuildAudioPlayer(event.getChannel().getGuild());
-        if(arguments.get(0).matches("\\d"))
+		if(arguments.isEmpty())
+		{
+			counter = 1;
+		}
+		else if(arguments.get(0).matches("\\d"))
         {
         	counter = Integer.parseInt(arguments.get(0));
         }
-        for(int i = 0; i<counter;i++)
+        for(int i = 0; i<=counter;i++)
         {
         	musicManager.getScheduler().nextTrack();
         	System.out.println("Track skipped at the reqeust of " + event.getAuthor().getName() + " at " + UtilsAndConstants.getCurrentTimestamp());
         }
-        UtilsAndConstants.sendMessage(event.getChannel(), "Skipped to next track.");
+        UtilsAndConstants.sendMessage(event.getChannel(), "Skipped to " + counter + " th track.");
 
 	}
 
