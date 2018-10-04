@@ -32,7 +32,7 @@ public class GlacierYoutubePlayer implements Command {
 		
 		System.out.println("Started Channel Specific Search at " + UtilsAndConstants.getCurrentTimestamp());
 		
-        
+		
         try {
         	Youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
                 public void initialize(HttpRequest request) throws IOException {
@@ -57,6 +57,13 @@ public class GlacierYoutubePlayer implements Command {
         	//and finally, the query string
         	SearchListResponse searchResponse = search.execute();
             List<SearchResult> searchResultList = searchResponse.getItems();
+            /* so I'm thinking 
+             * we'll make an embedded message that contains, visible to the user, 
+             * the titles of the video (we'll have to change the search fields a bit)
+             * these titles will be links to the videos themselves,
+             * and the links in these titles will be what the reaction add Event uses to call the play command
+             * if not in code then by sending the message
+             * */
             SearchResult singleVideo = searchResultList.get(0);
             ResourceId rId = singleVideo.getId();
             String videoID = rId.getVideoId();
