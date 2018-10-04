@@ -2,7 +2,7 @@ package com.glacier.discordbot.commands;
 
 import java.util.List;
 
-import com.glacier.discordbot.audiohandlers.OrdinaryYoutubeResultHandler;
+import com.glacier.discordbot.audiohandlers.OrdinaryResultHandler;
 import com.glacier.discordbot.lavaplayer.GuildMusicManager;
 import com.glacier.discordbot.model.Command;
 import com.glacier.discordbot.util.UtilsAndConstants;
@@ -14,7 +14,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IVoiceChannel;
 
-public class OrdinaryYoutubePlayer implements Command {
+public class OrdinaryPlayer implements Command {
 
 	public static final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
     @Override
@@ -33,8 +33,9 @@ public class OrdinaryYoutubePlayer implements Command {
         GuildMusicManager musicManager = UtilsAndConstants.getGuildAudioPlayer(voiceChannel.getGuild());
         //get the queue manager for the channel the bot's in
 
-        playerManager.loadItemOrdered(musicManager, searchStr,
-    		new OrdinaryYoutubeResultHandler(textChannel,musicManager,searchStr));
+        System.out.println("Playing item " + searchStr + " because of " + event.getAuthor().getName() + " at " + UtilsAndConstants.getCurrentTimestamp());
         
+        playerManager.loadItemOrdered(musicManager, searchStr,
+    		new OrdinaryResultHandler(textChannel,musicManager,searchStr));        
 	}
 }

@@ -1,12 +1,8 @@
 package com.glacier.discordbot.commands;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import com.glacier.discordbot.model.Command;
 import com.glacier.discordbot.util.UtilsAndConstants;
@@ -32,18 +28,10 @@ public class GlacierYoutubePlayer implements Command {
 
 		//in a similar way to the base of the bot, I'm borrowing from the sample code provided by youtube
 		
-		Properties properties = new Properties();
-        try {
-        	ClassLoader classLoader = getClass().getClassLoader();
-        	File propertiesFile = new File(classLoader.getResource(UtilsAndConstants.PROPERTIES_FILENAME).getFile());
-            InputStream in = new FileInputStream(propertiesFile);
-            properties.load(in);
-
-        } catch (IOException e) {
-            System.err.println("There was an error reading " + UtilsAndConstants.PROPERTIES_FILENAME + ": " + e.getCause()
-                    + " : " + e.getMessage());
-            return;
-        }
+		//TODO: insert an embedded message that allows one to pick which search result they want to hear
+		
+		System.out.println("Started Channel Specific Search at " + UtilsAndConstants.getCurrentTimestamp());
+		
         
         try {
         	Youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
@@ -57,10 +45,10 @@ public class GlacierYoutubePlayer implements Command {
         	//however there isn't something that needs to be set each time the request is sent so it does nothing
         	YouTube.Search.List search =Youtube.search().list("id,snippet");
         	//we make a search:list object
-        	search.setKey(properties.getProperty("youtube.apikey"));
+        	search.setKey(UtilsAndConstants.properties.getProperty("youtube.apikey"));
         	search.setType("video");
         	search.setFields("items(id/videoId)");
-        	search.setChannelId(properties.getProperty("youtube.channelid"));
+        	search.setChannelId(UtilsAndConstants.properties.getProperty("youtube.channelid"));
         	search.setQ(String.join(" ", arguments));
         	//then set it's properties appropriately
         	//give it the api key we need, the id of the channel you want to search through
@@ -77,13 +65,13 @@ public class GlacierYoutubePlayer implements Command {
             //given this youtube url, we can just call the ordinary youtube player now
             ArrayList<String> temp = new ArrayList<String>();
             temp.add(youtubeURL);
-            new OrdinaryYoutubePlayer().runCommand(event, temp);
+            new OrdinaryPlayer().runCommand(event, temp);
         }
         catch (GoogleJsonResponseException e) {
-            System.err.println("There was a service error: " + e.getDetails().getCode() + " : "
-                    + e.getDetails().getMessage());
+            System.err.println("There was an error in the Youtube Service: " + e.getDetails().getCode() + " : "
+                    + e.getDetails().getMessage() + " at " + UtilsAndConstants.getCurrentTimestamp());
         } catch (IOException e) {
-            System.err.println("There was an IO error: " + e.getCause() + " : " + e.getMessage());
+            System.err.println("There was an IO error: " + e.getCause() + " : " + e.getMessage() + " at " + UtilsAndConstants.getCurrentTimestamp());
         } catch (Throwable t) {
             t.printStackTrace();
         }

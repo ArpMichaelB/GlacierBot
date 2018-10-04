@@ -26,6 +26,7 @@ public class LeaveUser implements Command {
         scheduler.nextTrack();
 
         voiceChannel.leave();
+        //since it already logs when voice socket is connected/disconnected by default, we don't need to log this event in the log file
 	}
 
 }

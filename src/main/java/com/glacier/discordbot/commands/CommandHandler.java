@@ -1,7 +1,5 @@
 package com.glacier.discordbot.commands;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,24 +29,14 @@ public class CommandHandler {
     	commandMap.put("say", new TalkBack());
     	commandMap.put("join", new JoinUser());
     	commandMap.put("leave", new LeaveUser());
-    	commandMap.put("yt", new OrdinaryYoutubePlayer());
-    	//note that the yt command takes youtube URLS
+    	commandMap.put("play", new OrdinaryPlayer());
     	commandMap.put("glacier", new GlacierYoutubePlayer());
     	commandMap.put("skip", new SkipTrack());
-    	/*
-    	 * the current plan for the actual play my videos command is pulling in the youtube api
-    	 * since you can limit your searches to specific users with that
-    	 * in order to get the urls that we then pass on to lavaplayer
-    	 * alternatively we can do it the hard way, i.e. have a json file with each title as a key and url as a value
-    	 * but that's a lot of manual work and would require almost literally daily updates which is rough
-    	 * so let's hope we can use the youtube api
-    	 */
     }
     
 	@EventSubscriber
     public void onMessageReceived(MessageReceivedEvent event) {
-		//TODO: add slf4j to point all the logging at the intended file, since this doesn't like me using system.err
-        //If there's an error, we'll be outputting about it to the log file
+		//If there's an error, we'll be outputting about it to the log file
 		//At least initially
 		//Eventually, I'll look into messaging the user which tried to make the command 
 		//and send them their error/a help dialog
@@ -84,7 +72,7 @@ public class CommandHandler {
             commandMap.get(commandStr).runCommand(event, argsList);
         else
         {
-        	System.err.println("Failed command " + commandStr + " at " + DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss").format(LocalDateTime.now()));
+        	System.err.println("Failed command " + commandStr + " at " + UtilsAndConstants.getCurrentTimestamp());
         }
     }
 }

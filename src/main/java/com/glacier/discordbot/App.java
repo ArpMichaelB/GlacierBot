@@ -6,23 +6,30 @@ import com.glacier.discordbot.util.UtilsAndConstants;
 import sx.blah.discord.api.IDiscordClient;
 
 /**
- * Overall, this bot is using the D4J example bot as a base, which I then build upon.
- * The major work which reflects my own efforts is in the response to the commands, 
- * rather than what wraps around them to make it interact with discord
- * Comparison with the code available at https://github.com/decyg/d4jexamplebot 
- * will make the difference between my work and what I've been borrowing incredibly evident
+ * As the project continues, I think I've stepped far enough away from the example discord bot to call this code entirely my own
+ * but I will state that the starting point for this project was the example bot found at https://github.com/decyg/d4jexamplebot
+ * There are bits and pieces that remain of it if you look closely
+ * but I've layered in enough changes that I'd say this is essentially all mine now
+ * @author Michael Arp (aka Glacier Nester)
  */
 public class App 
 {
     public static void main( String[] args )
     {
-    	UtilsAndConstants.setErrorToLog();
-    	if(args.length != 1){
-            System.err.println("Please enter the bots token as the first argument e.g java -jar thisjar.jar tokenhere");
-            return;
+    	UtilsAndConstants.setupLogFiles();
+    	
+    	if(UtilsAndConstants.properties == null)
+    	{
+    		System.err.println("Error, no properties file found. Cancelling launch at " + UtilsAndConstants.getCurrentTimestamp());
+    		return;
+    	}
+    	else if(!UtilsAndConstants.properties.containsKey("discord.key"))
+        {
+        	System.err.println("Error, no discord token found. Cancelling Launch at " + UtilsAndConstants.getCurrentTimestamp());
+        	return;
         }
-
-        IDiscordClient cli = UtilsAndConstants.getBuiltDiscordClient(args[0]);
+        
+        IDiscordClient cli = UtilsAndConstants.getBuiltDiscordClient(UtilsAndConstants.properties.getProperty("discord.key"));
 
         // Register a listener via the EventSubscriber annotation which allows for organisation and delegation of events
         cli.getDispatcher().registerListener(new CommandHandler());
