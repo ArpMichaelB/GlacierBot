@@ -35,6 +35,7 @@ public class EmbedHandler {
     			int counter = 1;
 	    		for(IEmbedField data : embeddedMessage.getEmbedFields())
 	    		{
+	    			data.getName();
 					Emoji reaction = EmojiManager.getForAlias(UtilsAndConstants.translateToEmoji(counter));
 	    			RequestBuffer.request(() -> {
 	    				message.addReaction(reaction);
