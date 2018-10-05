@@ -15,6 +15,11 @@ public class JoinUser implements Command {
 		IVoiceChannel voiceChannel = event.getGuild().getClient().getOurUser().getVoiceStateForGuild(event.getGuild()).getChannel();
 		if(voiceChannel == null)
 		{
+			if(event.getAuthor() == event.getGuild().getClient().getOurUser())
+			{
+				UtilsAndConstants.sendMessage(event.getChannel(), "I'm not in a voice channel, get me to join one please!");
+				return;
+			}
 			IVoiceChannel userVoiceChannel = event.getAuthor().getVoiceStateForGuild(event.getGuild()).getChannel();
 
 	        if(userVoiceChannel == null)

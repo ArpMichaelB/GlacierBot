@@ -43,78 +43,7 @@ public class CommandHandler {
     	commandMap.put("glacier", new GlacierVideoSelector());
     	commandMap.put("skip", new SkipTrack());
     }
-    
-    @EventSubscriber
-    public void onReactionMade(ReactionEvent event)
-    {
-    	
-    	if(event.getUser() == event.getChannel().getClient().getOurUser())
-    	{
-    		return;
-    	}
-    	if(event.getCount() <=1)
-    	{
-    		return;
-    	}
-    	if(!UtilsAndConstants.checkForValidChoice(event.getReaction().getEmoji().getName()))
-    	{
-    		System.out.println("Invalid Choice of " + event.getReaction().getEmoji().getName());
-    		return;
-    	}
-    	if(event.getMessage().getEmbeds().isEmpty())
-    	{
-    		System.out.println("not an embed");
-    		return;
-    	}
-    	//if the message is being reacted to by the bot, ignore that
-    	//if the reaction made isn't one of the valid buttons, ignore it
-    	//if the message being reacted to isn't an embed, ignore it
-    	int fieldToGet = UtilsAndConstants.translateFromEmoji(event.getReaction().getEmoji().getName());
-    	String name = event.getMessage().getEmbeds().get(0).getEmbedFields().get(fieldToGet).getValue();
-    	name = name.substring(name.indexOf("(")+1, name.lastIndexOf(")"));
-    	//get the link based on what choice the user made
-    	ArrayList<String> temp = new ArrayList<String>();
-    	temp.add(name);
-    	new OrdinaryPlayer().runCommand(new MessageReceivedEvent(event.getMessage()), temp);
-    	
-    	
-    }
-    
-    @EventSubscriber
-    public void onMessageEmbedded(MessageUpdateEvent event)
-    {
-        if(event.getMessage().getAuthor() == event.getChannel().getClient().getOurUser())
-    	{
-    		System.out.println("Detected Self Authored message change at " + UtilsAndConstants.getCurrentTimestamp());
-    		MessageHistory history = event.getChannel().getMessageHistory();
-    		IMessage message = history.getLatestMessage();
-    		if(message.getEmbeds().isEmpty())
-    		{
-    			System.out.println("Updated Message was not an Embed, cancelling operation at " + UtilsAndConstants.getCurrentTimestamp());
-    			return;
-    			//if the message that was edited isn't an embedded message, do nothing
-    		}
-    		IEmbed embeddedMessage = message.getEmbeds().get(0);
-    		if(embeddedMessage.getEmbedFields().get(0).getName().contains("1. "))
-    		{
-    			//if the embedded message's first field contains the first number heading
-    			//run through the whole thing and react with the appropriate reaction
-    			//TODO: check into replacing the name with checking the embedded message's title instead
-	    		int counter = 1;
-	    		for(IEmbedField data : embeddedMessage.getEmbedFields())
-	    		{
-					Emoji reaction = EmojiManager.getForAlias(UtilsAndConstants.translateToEmoji(counter));
-	    			RequestBuffer.request(() -> {
-	    				message.addReaction(reaction);
-	    			});
-	    			//essentially requestbuffer makes the bot wait until it is able to do the thing, then does it
-	    			//Like sending a message, I might make this a method in utils and constants 
-	    			counter++;
-				}
-    		}
-    	}
-    }
-    
+         
 	@EventSubscriber
     public void onMessageReceived(MessageReceivedEvent event) {
 		//If there's an error, we'll be outputting about it to the log file
