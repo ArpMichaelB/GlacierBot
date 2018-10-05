@@ -71,9 +71,13 @@ public class CommandHandler {
     	//if the message being reacted to isn't an embed, ignore it
     	int fieldToGet = UtilsAndConstants.translateFromEmoji(event.getReaction().getEmoji().getName());
     	String name = event.getMessage().getEmbeds().get(0).getEmbedFields().get(fieldToGet).getValue();
-    	name = name.substring(name.indexOf("(")+1, name.lastIndexOf(")")-1);
+    	name = name.substring(name.indexOf("(")+1, name.lastIndexOf(")"));
     	//get the link based on what choice the user made
-    	System.out.println(name + " field chosen at " + UtilsAndConstants.getCurrentTimestamp());
+    	ArrayList<String> temp = new ArrayList<String>();
+    	temp.add(name);
+    	new OrdinaryPlayer().runCommand(new MessageReceivedEvent(event.getMessage()), temp);
+    	
+    	
     }
     
     @EventSubscriber

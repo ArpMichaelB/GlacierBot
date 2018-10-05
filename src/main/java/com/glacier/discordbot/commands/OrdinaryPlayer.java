@@ -20,7 +20,7 @@ public class OrdinaryPlayer implements Command {
     @Override
 	public void runCommand(MessageReceivedEvent event, List<String> arguments) {
 		AudioSourceManagers.registerRemoteSources(playerManager);
-		IVoiceChannel voiceChannel = event.getClient().getOurUser().getVoiceStateForGuild(event.getGuild()).getChannel();
+		IVoiceChannel voiceChannel = event.getGuild().getClient().getOurUser().getVoiceStateForGuild(event.getGuild()).getChannel();
 		IChannel textChannel = event.getChannel();
 		if(voiceChannel == null)
 		{

@@ -12,7 +12,7 @@ public class JoinUser implements Command {
 
 	@Override
 	public void runCommand(MessageReceivedEvent event, List<String> arguments) {
-		IVoiceChannel voiceChannel = event.getClient().getOurUser().getVoiceStateForGuild(event.getGuild()).getChannel();
+		IVoiceChannel voiceChannel = event.getGuild().getClient().getOurUser().getVoiceStateForGuild(event.getGuild()).getChannel();
 		if(voiceChannel == null)
 		{
 			IVoiceChannel userVoiceChannel = event.getAuthor().getVoiceStateForGuild(event.getGuild()).getChannel();
