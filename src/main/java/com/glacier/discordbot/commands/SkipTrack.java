@@ -23,7 +23,7 @@ public class SkipTrack implements Command {
         {
         	counter = Integer.parseInt(arguments.get(0));
         }
-        for(int i = 0; i<=counter;i++)
+        for(int i = 0; i<counter;i++)
         {
         	musicManager.getScheduler().nextTrack();
         	System.out.println("Track skipped at the reqeust of " + event.getAuthor().getName() + " at " + UtilsAndConstants.getCurrentTimestamp());

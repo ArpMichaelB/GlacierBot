@@ -1,6 +1,8 @@
 package com.glacier.discordbot;
 
 import com.glacier.discordbot.commands.CommandHandler;
+import com.glacier.discordbot.commands.EmbedHandler;
+import com.glacier.discordbot.commands.ReactionHandler;
 import com.glacier.discordbot.util.UtilsAndConstants;
 
 import sx.blah.discord.api.IDiscordClient;
@@ -33,6 +35,8 @@ public class App
 
         // Register a listener via the EventSubscriber annotation which allows for organisation and delegation of events
         cli.getDispatcher().registerListener(new CommandHandler());
+        cli.getDispatcher().registerListener(new EmbedHandler());
+        cli.getDispatcher().registerListener(new ReactionHandler());
 
         // Only login after all events are registered otherwise some may be missed.
         cli.login();
