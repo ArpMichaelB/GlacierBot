@@ -19,10 +19,7 @@ import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.impl.obj.ReactionEmoji;
-import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.EmbedBuilder;
-import sx.blah.discord.util.MessageHistory;
 import sx.blah.discord.util.RequestBuffer;
 
 public class GlacierVideoSelector implements Command {
@@ -63,7 +60,7 @@ public class GlacierVideoSelector implements Command {
         	SearchListResponse searchResponse = search.execute();
             List<SearchResult> searchResultList = searchResponse.getItems();
             Map<String,String> details = new HashMap<String,String>();
-            for(int i = 0; i<5;i++)
+            for(int i = 0; i<UtilsAndConstants.MAX_ITEMS_TO_FETCH;i++)
             {
             	if(searchResultList.size()>i)
             	{
