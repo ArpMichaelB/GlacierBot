@@ -9,18 +9,9 @@ import java.util.Map;
 import com.glacier.discordbot.lavaplayer.GuildMusicManager;
 import com.glacier.discordbot.model.Command;
 import com.glacier.discordbot.util.UtilsAndConstants;
-import com.vdurmont.emoji.Emoji;
-import com.vdurmont.emoji.EmojiManager;
 
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.impl.events.guild.channel.message.MessageUpdateEvent;
-import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.ReactionEvent;
-import sx.blah.discord.handle.obj.IEmbed;
-import sx.blah.discord.handle.obj.IEmbed.IEmbedField;
-import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.util.MessageHistory;
-import sx.blah.discord.util.RequestBuffer;
 
 public class CommandHandler {
 	
@@ -28,9 +19,6 @@ public class CommandHandler {
     private static Map<String, Command> commandMap = new HashMap<>();
     //the music managers map is put here so that all the commands can get to it
     public static final Map<Long, GuildMusicManager> musicManagers  = new HashMap<>();
-	
-    //TODO: set up this command map to contain the commands
-    //TODO: set up the reactionEvent handler
     
     static
     {
