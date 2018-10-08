@@ -1,4 +1,4 @@
-package com.glacier.discordbot.commands;
+package com.glacier.discordbot.handlers;
 
 import com.glacier.discordbot.util.UtilsAndConstants;
 import com.vdurmont.emoji.Emoji;
