@@ -22,7 +22,7 @@ youtube.channelid=`Channel ID for the channel to search`
 
 discord.key=`discord token for the bot to use`
 
-and make sure the file is named discord.properties 
+and make sure the file is named discordbot.properties 
   
 ### Commands
 
