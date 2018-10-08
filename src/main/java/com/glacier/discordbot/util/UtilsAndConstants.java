@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.glacier.discordbot.commands.CommandHandler;
+import com.glacier.discordbot.handlers.CommandHandler;
 import com.glacier.discordbot.lavaplayer.GuildMusicManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.vdurmont.emoji.Emoji;

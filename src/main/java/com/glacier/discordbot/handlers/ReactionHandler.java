@@ -1,7 +1,8 @@
-package com.glacier.discordbot.commands;
+package com.glacier.discordbot.handlers;
 
 import java.util.ArrayList;
 
+import com.glacier.discordbot.commands.OrdinaryPlayer;
 import com.glacier.discordbot.util.UtilsAndConstants;
 
 import sx.blah.discord.api.events.EventSubscriber;
