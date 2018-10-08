@@ -22,3 +22,5 @@ To start the bot, just click the jar file, and you should be up and running! If 
 	searches the channel id you gave it in the properties file, for the arguments you give the command.
 ~skip <args>
 	skips the number of tracks you ask for, or just one if you don't add any arguments
+~naptime
+	Closes the process that's running the bot, "putting him to sleep", so to speak
