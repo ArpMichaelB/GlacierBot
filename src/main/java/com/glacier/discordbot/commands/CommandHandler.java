@@ -30,6 +30,7 @@ public class CommandHandler {
     	commandMap.put("play", new OrdinaryPlayer());
     	commandMap.put("glacier", new GlacierVideoSelector());
     	commandMap.put("skip", new SkipTrack());
+    	commandMap.put("naptime",new GoodNight());
     }
          
 	@EventSubscriber

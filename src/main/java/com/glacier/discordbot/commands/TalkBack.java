@@ -19,7 +19,8 @@ public class TalkBack implements Command {
 		{
 			UtilsAndConstants.sendMessage(event.getChannel(), "Oh dear, you didn't give me something to say.");
 		}
-		UtilsAndConstants.sendMessage(event.getChannel(), arguments.get(0));
+		String thingToSay = String.join(" ", arguments);
+		UtilsAndConstants.sendMessage(event.getChannel(), thingToSay);
 		
 	}
 

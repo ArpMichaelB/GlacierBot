@@ -24,7 +24,8 @@ public class OrdinaryPlayer implements Command {
 		IChannel textChannel = event.getChannel();
 		if(voiceChannel == null)
 		{
-			UtilsAndConstants.sendMessage(textChannel, "Okay, but you won't hear me while I'm outside of a voice channel.");
+			UtilsAndConstants.sendMessage(textChannel, "Have me join a voice channel first, you won't be able to hear me if I try right now!");
+			return;
 		}
         
 		//Turn the args back into a string separated by space

@@ -30,15 +30,16 @@ public class ReactionHandler {
 	    	//if the reaction made isn't one of the valid buttons, ignore it
 	    	//if the message being reacted to isn't an embed, ignore it
 	    	int fieldToGet = UtilsAndConstants.translateFromEmoji(event.getReaction().getEmoji().getName());
-	    	String name = event.getMessage().getEmbeds().get(0).getEmbedFields().get(fieldToGet).getValue();
-	    	name = name.substring(name.indexOf("(")+1, name.lastIndexOf(")"));
+	    	String url = event.getMessage().getEmbeds().get(0).getEmbedFields().get(fieldToGet).getValue();
+	    	url = url.substring(url.indexOf("(")+1, url.lastIndexOf(")"));
 	    	//get the link based on what choice the user made
 	    	ArrayList<String> temp = new ArrayList<String>();
-	    	temp.add(name);
+	    	temp.add(url);
 	    	new OrdinaryPlayer().runCommand(new MessageReceivedEvent(event.getMessage()), temp);
     	}
     	catch(ArrayIndexOutOfBoundsException ex)
     	{
+    		System.out.println("User " + event.getAuthor().getName() + " decided to be clever and pick a valid option which didn't exist, at " + UtilsAndConstants.getCurrentTimestamp());
     		UtilsAndConstants.sendMessage(event.getChannel(), "Really, you went out of your way to pick a valid option, not on the page?");
     	}
     }

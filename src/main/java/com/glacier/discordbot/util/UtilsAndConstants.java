@@ -14,12 +14,14 @@ import java.util.Properties;
 import com.glacier.discordbot.commands.CommandHandler;
 import com.glacier.discordbot.lavaplayer.GuildMusicManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
+import com.vdurmont.emoji.Emoji;
 import com.vdurmont.emoji.EmojiManager;
 
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
 
@@ -31,7 +33,7 @@ public class UtilsAndConstants {
 	public static final int MAX_ITEMS_TO_FETCH = 5;
 	//public static Logger logger = LoggerFactory.getLogger(App.class);
 	//I'm going to persist in using system.err for my logging because I don't need anything special
-	//additionally adding this logger didn't solve the "Defaulting to slf4j" didn't fix anything
+	//additionally adding this logger didn't solve the "Defaulting to slf4j" whatnot it screms about
 	//so I'm not going to include it, just leave this commented in line as a reminder to sort out how to fix this
 	
 	public static void setupLogFiles()
@@ -53,6 +55,11 @@ public class UtilsAndConstants {
             System.err.println("There was an error reading " + UtilsAndConstants.PROPERTIES_FILENAME + ": " + e.getCause()
                     + " : " + e.getMessage() + " at " + getCurrentTimestamp());
             return null;
+        }
+        catch(NullPointerException ex)
+        {
+        	System.err.println("There's no properties file, check the read me, please!");
+        	return null;
         }
 	}
 	
@@ -248,5 +255,11 @@ public class UtilsAndConstants {
 			ret.add(EmojiManager.getForAlias(translateToEmoji(i)).getUnicode());
 		}
 		return ret;
+	}
+	
+	public static void reactToMessage(IMessage message, Emoji reaction) {
+		RequestBuffer.request(() -> {
+			message.addReaction(reaction);
+		});
 	}
 }

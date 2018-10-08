@@ -33,8 +33,7 @@ public class GlacierVideoSelector implements Command {
 		//in a similar way to the base of the bot, I'm borrowing from the sample code provided by youtube
 		
 		System.out.println("Started Channel Specific Search at " + UtilsAndConstants.getCurrentTimestamp());
-		
-		
+				
         try {
         	Youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
                 public void initialize(HttpRequest request) throws IOException {
@@ -59,6 +58,11 @@ public class GlacierVideoSelector implements Command {
         	//and finally, the query string
         	SearchListResponse searchResponse = search.execute();
             List<SearchResult> searchResultList = searchResponse.getItems();
+            if(searchResultList.isEmpty())
+            {
+            	UtilsAndConstants.sendMessage(event.getChannel(), "Oh dear, I didn't find anything. Try a different search, perhaps?");
+            	return;
+            }
             Map<String,String> details = new HashMap<String,String>();
             for(int i = 0; i<UtilsAndConstants.MAX_ITEMS_TO_FETCH;i++)
             {
@@ -88,13 +92,6 @@ public class GlacierVideoSelector implements Command {
             //normally I'd call the util method to send the message
             //but the messageBuilder doesn't return a string so I have to do it manually here
             
-            /*
-             * Basically, send an embedded message with all the data
-             * then, something that senses the embedding of the message will react
-             * then another react handling command looks for the user hitting that reaction
-             * and either passes the url onto the ordinary player
-             * or plays that link itself
-             */
         }
         catch (GoogleJsonResponseException e) {
             System.err.println("There was an error in the Youtube Service: " + e.getDetails().getCode() + " : "
