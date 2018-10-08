@@ -83,7 +83,7 @@ public class GlacierVideoSelector implements Command {
             EmbedBuilder messageBuilder = new EmbedBuilder();
             messageBuilder.withAuthorName("GlacierBot");
             messageBuilder.withTitle("Choose a Video");
-            messageBuilder.appendDescription("Click the reaction number which matches the video you want to watch.");
+            messageBuilder.appendDescription("Click the reaction number which matches the video you want to watch, or click ❌ to delete the message.");
             int counter = 1;
             for (Entry<String, String> entry : details.entrySet()) {
         		messageBuilder.appendField(counter + ". " + entry.getKey(),"[video link]("+entry.getValue() + ")",false);

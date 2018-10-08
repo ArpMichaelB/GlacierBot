@@ -41,6 +41,7 @@ public class EmbedHandler {
 	    			//Like sending a message, I might make this a method in utils and constants 
 	    			counter++;
 				}
+	    		UtilsAndConstants.reactToMessage(message, EmojiManager.getForAlias("x"));
     		}
     	}
     }

@@ -8,6 +8,7 @@ import com.glacier.discordbot.util.UtilsAndConstants;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.ReactionEvent;
+import sx.blah.discord.handle.impl.obj.ReactionEmoji;
 
 public class ReactionHandler {
 	@EventSubscriber
@@ -16,6 +17,11 @@ public class ReactionHandler {
     	try {
 	    	if(event.getUser() == event.getChannel().getClient().getOurUser())
 	    	{
+	    		return;
+	    	}
+	    	if(event.getReaction().getEmoji().equals(ReactionEmoji.of("❌")))
+	    	{
+	    		event.getMessage().delete();
 	    		return;
 	    	}
 	    	if(event.getCount() <1 || event.getCount() == 2)
