@@ -65,19 +65,20 @@ public class UtilsAndConstants {
 	
 	
 	private static void setOutToLogFile() {
-		File logFolder = new File("C:\\Glacier Nester\\logs");
+		String baseDrive = File.listRoots()[0].getPath();
+		File logFolder = new File(baseDrive + "Glacier Nester/logs");
     	File file = null;
     	if(!logFolder.exists())
     	{
     		logFolder.setWritable(true);
     		if(logFolder.mkdirs())
     		{
-    			file = new File("C:\\Glacier Nester\\logs\\GlacierBot.log");
+    			file = new File(baseDrive + "Glacier Nester/logs/GlacierBot.log");
     		}
     	}
     	else
     	{
-    		file = new File("C:\\Glacier Nester\\logs\\GlacierBot.log");
+    		file = new File(baseDrive + "Glacier Nester/logs/GlacierBot.log");
     	}
     	try {
 	    	FileOutputStream fos = new FileOutputStream(file);
@@ -93,20 +94,20 @@ public class UtilsAndConstants {
 
 
 	private static void setErrorToLogFile() {
-		
-		File logFolder = new File("C:\\Glacier Nester\\logs");
+		String baseDrive = File.listRoots()[0].getPath();
+		File logFolder = new File(baseDrive + "Glacier Nester/logs");
     	File file = null;
     	if(!logFolder.exists())
     	{
     		logFolder.setWritable(true);
     		if(logFolder.mkdirs())
     		{
-    			file = new File("C:\\Glacier Nester\\logs\\GlacierBotErrors.log");
+    			file = new File(baseDrive + "Glacier Nester/logs/GlacierBotErrors.log");
     		}
     	}
     	else
     	{
-    		file = new File("C:\\Glacier Nester\\logs\\GlacierBotErrors.log");
+    		file = new File(baseDrive + "Glacier Nester/logs/GlacierBotErrors.log");
     	}
     	try {
 	    	FileOutputStream fos = new FileOutputStream(file);
