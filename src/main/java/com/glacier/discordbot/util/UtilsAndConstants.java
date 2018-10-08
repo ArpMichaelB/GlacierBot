@@ -30,7 +30,7 @@ public class UtilsAndConstants {
 	private static final String PROPERTIES_FILENAME = "discordbot.properties";	
 	public static final String BEGINNING_PIECE_OF_URL = "http://www.youtube.com/watch?v=";
 	public static Properties properties = setupProperties();
-	public static final int MAX_ITEMS_TO_FETCH = 5;
+	public static int MAX_ITEMS_TO_FETCH = 5;
 	//public static Logger logger = LoggerFactory.getLogger(App.class);
 	//I'm going to persist in using system.err for my logging because I don't need anything special
 	//additionally adding this logger didn't solve the "Defaulting to slf4j" whatnot it screms about

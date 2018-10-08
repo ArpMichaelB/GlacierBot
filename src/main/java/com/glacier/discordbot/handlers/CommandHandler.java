@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.glacier.discordbot.commands.GlacierVideoSelector;
 import com.glacier.discordbot.commands.GoodNight;
+import com.glacier.discordbot.commands.HowManyChanger;
 import com.glacier.discordbot.commands.JoinUser;
 import com.glacier.discordbot.commands.LeaveUser;
 import com.glacier.discordbot.commands.OrdinaryPlayer;
@@ -40,6 +41,7 @@ public class CommandHandler {
     	commandMap.put("skip", new SkipTrack());
     	commandMap.put("naptime",new GoodNight());
     	commandMap.put("updatePrefix", new PrefixChanger());
+    	commandMap.put("howMany", new HowManyChanger());
     }
          
 	@EventSubscriber

@@ -51,6 +51,7 @@ public class GlacierVideoSelector implements Command {
         	search.setFields("items(id/videoId,snippet/title)");
         	search.setChannelId(UtilsAndConstants.properties.getProperty("youtube.channelid"));
         	search.setQ(String.join(" ", arguments));
+        	search.setMaxResults((long) UtilsAndConstants.MAX_ITEMS_TO_FETCH);
         	//then set it's properties appropriately
         	//give it the api key we need, the id of the channel you want to search through
         	//the type of thing we're searching for (video)
