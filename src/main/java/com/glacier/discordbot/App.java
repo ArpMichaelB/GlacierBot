@@ -1,8 +1,8 @@
 package com.glacier.discordbot;
 
-import com.glacier.discordbot.commands.CommandHandler;
-import com.glacier.discordbot.commands.EmbedHandler;
-import com.glacier.discordbot.commands.ReactionHandler;
+import com.glacier.discordbot.handlers.CommandHandler;
+import com.glacier.discordbot.handlers.EmbedHandler;
+import com.glacier.discordbot.handlers.ReactionHandler;
 import com.glacier.discordbot.util.UtilsAndConstants;
 
 import sx.blah.discord.api.IDiscordClient;

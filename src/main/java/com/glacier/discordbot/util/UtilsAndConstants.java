@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.glacier.discordbot.commands.CommandHandler;
+import com.glacier.discordbot.handlers.CommandHandler;
 import com.glacier.discordbot.lavaplayer.GuildMusicManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.vdurmont.emoji.Emoji;
@@ -30,7 +30,7 @@ public class UtilsAndConstants {
 	private static final String PROPERTIES_FILENAME = "discordbot.properties";	
 	public static final String BEGINNING_PIECE_OF_URL = "http://www.youtube.com/watch?v=";
 	public static Properties properties = setupProperties();
-	public static final int MAX_ITEMS_TO_FETCH = 5;
+	public static int MAX_ITEMS_TO_FETCH = 5;
 	//public static Logger logger = LoggerFactory.getLogger(App.class);
 	//I'm going to persist in using system.err for my logging because I don't need anything special
 	//additionally adding this logger didn't solve the "Defaulting to slf4j" whatnot it screms about
@@ -65,19 +65,20 @@ public class UtilsAndConstants {
 	
 	
 	private static void setOutToLogFile() {
-		File logFolder = new File("C:\\Glacier Nester\\logs");
+		String baseDrive = File.listRoots()[0].getPath();
+		File logFolder = new File(baseDrive + "Glacier Nester/logs");
     	File file = null;
     	if(!logFolder.exists())
     	{
     		logFolder.setWritable(true);
     		if(logFolder.mkdirs())
     		{
-    			file = new File("C:\\Glacier Nester\\logs\\GlacierBot.log");
+    			file = new File(baseDrive + "Glacier Nester/logs/GlacierBot.log");
     		}
     	}
     	else
     	{
-    		file = new File("C:\\Glacier Nester\\logs\\GlacierBot.log");
+    		file = new File(baseDrive + "Glacier Nester/logs/GlacierBot.log");
     	}
     	try {
 	    	FileOutputStream fos = new FileOutputStream(file);
@@ -93,20 +94,20 @@ public class UtilsAndConstants {
 
 
 	private static void setErrorToLogFile() {
-		
-		File logFolder = new File("C:\\Glacier Nester\\logs");
+		String baseDrive = File.listRoots()[0].getPath();
+		File logFolder = new File(baseDrive + "Glacier Nester/logs");
     	File file = null;
     	if(!logFolder.exists())
     	{
     		logFolder.setWritable(true);
     		if(logFolder.mkdirs())
     		{
-    			file = new File("C:\\Glacier Nester\\logs\\GlacierBotErrors.log");
+    			file = new File(baseDrive + "Glacier Nester/logs/GlacierBotErrors.log");
     		}
     	}
     	else
     	{
-    		file = new File("C:\\Glacier Nester\\logs\\GlacierBotErrors.log");
+    		file = new File(baseDrive + "Glacier Nester/logs/GlacierBotErrors.log");
     	}
     	try {
 	    	FileOutputStream fos = new FileOutputStream(file);
