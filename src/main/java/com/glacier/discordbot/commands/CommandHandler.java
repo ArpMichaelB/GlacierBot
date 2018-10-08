@@ -1,13 +1,13 @@
 package com.glacier.discordbot.commands;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.glacier.discordbot.lavaplayer.GuildMusicManager;
+import com.glacier.discordbot.model.Command;
 import com.glacier.discordbot.util.UtilsAndConstants;
 
 import sx.blah.discord.api.events.EventSubscriber;
@@ -17,24 +17,25 @@ public class CommandHandler {
 	
 	// A static map of commands mapping from command string to the functional impl
     private static Map<String, Command> commandMap = new HashMap<>();
-	
-    //TODO: set up this command map to contain the commands
-    //I'm thinking we'll have an individual class for each command 
-    //that gets passed the args/audio whatnots
-    //think how the JavaFX event handlers are setup in a few of my other applications
-    //i.e. commandMap.put("command",new commandProcessingCode())
+    //the music managers map is put here so that all the commands can get to it
+    public static final Map<Long, GuildMusicManager> musicManagers  = new HashMap<>();
     
     static
     {
     	//I suppose since commandMap has to be static, 
     	//the placement of said commands have to be static
     	commandMap.put("say", new TalkBack());
+    	commandMap.put("join", new JoinUser());
+    	commandMap.put("leave", new LeaveUser());
+    	commandMap.put("play", new OrdinaryPlayer());
+    	commandMap.put("glacier", new GlacierVideoSelector());
+    	commandMap.put("skip", new SkipTrack());
+    	commandMap.put("naptime",new GoodNight());
     }
-    
+         
 	@EventSubscriber
     public void onMessageReceived(MessageReceivedEvent event) {
-
-        //If there's an error, we'll be outputting about it to the log file
+		//If there's an error, we'll be outputting about it to the log file
 		//At least initially
 		//Eventually, I'll look into messaging the user which tried to make the command 
 		//and send them their error/a help dialog
@@ -70,7 +71,7 @@ public class CommandHandler {
             commandMap.get(commandStr).runCommand(event, argsList);
         else
         {
-        	System.err.println("Failed command " + commandStr + " at " + DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss").format(LocalDateTime.now()));
+        	System.err.println("Failed command " + commandStr + " at " + UtilsAndConstants.getCurrentTimestamp());
         }
     }
 }
