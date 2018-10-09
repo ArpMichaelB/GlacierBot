@@ -32,6 +32,7 @@ public class ProjectFileCreator extends Application {
 		Text APIKeyLabel = new Text("Youtube API key:");
 		Text channelIDLabel = new Text("Youtube Channel ID:");
 		Text discordTokenLabel = new Text("Discord token:");
+		Text message = new Text("Close me after you've hit the button, and try again");
 		TextField APIKeyInput = new TextField();
 		TextField channelIDInput = new TextField();
 		TextField discordTokenInput = new TextField();
@@ -87,7 +88,7 @@ public class ProjectFileCreator extends Application {
         });
 		//just in case, when the button is pressed, update the text fields, even though that shouldn't really have to happen
 		btBuild.setOnAction(new BuildFile(APIKeyInput.getText(),channelIDInput.getText(),discordTokenInput.getText()));
-		inputs.getChildren().addAll(youtubeAPIKeyHolder,youtubeChannelIDHolder,discordTokenHolder);
+		inputs.getChildren().addAll(youtubeAPIKeyHolder,youtubeChannelIDHolder,discordTokenHolder,message);
 		container.getChildren().addAll(inputs,btBuild);
 		Scene primaryScene = new Scene(container,UtilsAndConstants.MENU_SIZE, UtilsAndConstants.MENU_SIZE_TWO);
 		primaryStage.setScene(primaryScene);
