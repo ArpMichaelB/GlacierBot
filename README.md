@@ -14,15 +14,7 @@
 Now I hear you. 
 >What am I going to do now that I have these things?
 
-Well, that's exceedingly simple! You just make a text document, that contains the following lines:
-
-youtube.apikey=`Youtube API Key`
-
-youtube.channelid=`Channel ID for the channel to search`
-
-discord.key=`discord token for the bot to use`
-
-and make sure the file is named discordbot.properties 
+Well, that's exceedingly simple! Just open up the program, and there'll be a handy dandy wizard that lets you fill in those three items. Once you click the button, just close the window, and try running the jar again, it should be working properly at this point!
   
 ### Commands
 
