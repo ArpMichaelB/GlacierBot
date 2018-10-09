@@ -29,6 +29,8 @@ public class UtilsAndConstants {
 	public static String BOT_PREFIX = "~";
 	private static final String PROPERTIES_FILENAME = "discordbot.properties";	
 	public static final String BEGINNING_PIECE_OF_URL = "http://www.youtube.com/watch?v=";
+	public static final double MENU_SIZE = 530;
+	public static final double MENU_SIZE_TWO = 145;
 	public static Properties properties = setupProperties();
 	public static int MAX_ITEMS_TO_FETCH = 5;
 	//public static Logger logger = LoggerFactory.getLogger(App.class);
@@ -58,7 +60,9 @@ public class UtilsAndConstants {
         }
         catch(NullPointerException ex)
         {
-        	System.err.println("There's no properties file, check the read me, please!");
+        	System.err.println("There's no properties file available, launching interface to create it now.");
+        	String[] args = new String[0];
+        	ProjectFileCreator.launch(ProjectFileCreator.class,args);
         	return null;
         }
 	}
