@@ -51,6 +51,7 @@ public class GlacierVideoSelector implements Command {
         	search.setFields("items(id/videoId,snippet/title)");
         	search.setChannelId(UtilsAndConstants.properties.getProperty("youtube.channelid"));
         	search.setQ(String.join(" ", arguments));
+        	search.setMaxResults((long) UtilsAndConstants.MAX_ITEMS_TO_FETCH);
         	//then set it's properties appropriately
         	//give it the api key we need, the id of the channel you want to search through
         	//the type of thing we're searching for (video)
@@ -82,7 +83,7 @@ public class GlacierVideoSelector implements Command {
             EmbedBuilder messageBuilder = new EmbedBuilder();
             messageBuilder.withAuthorName("GlacierBot");
             messageBuilder.withTitle("Choose a Video");
-            messageBuilder.appendDescription("Click the reaction number which matches the video you want to watch.");
+            messageBuilder.appendDescription("Click the reaction number which matches the video you want to watch, or click ❌ to delete the message.");
             int counter = 1;
             for (Entry<String, String> entry : details.entrySet()) {
         		messageBuilder.appendField(counter + ". " + entry.getKey(),"[video link]("+entry.getValue() + ")",false);
