@@ -21,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class ProjectFileCreator extends Application {
+	//TODO: update this WHOLE thing to play nice with making a json file
 	@Override
 	public void start(Stage primaryStage)
 	{
@@ -120,11 +121,13 @@ class BuildFile implements EventHandler<ActionEvent>
 			writeThings.println("youtube.channelid="+channelID);
 			writeThings.println("discord.key="+discordToken);
 			writeThings.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (FileNotFoundException e) 
+		{
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (IOException e) 
+		{
 			e.printStackTrace();
 		}
 	}
@@ -147,7 +150,6 @@ class ButtonHandler implements EventHandler<KeyEvent>
 	
 	@Override
 	public void handle(KeyEvent event) {
-		// TODO Auto-generated method stub
 		if(event.getCode() == KeyCode.ENTER)
 		{
 			new BuildFile(APIKey,channelID,discordToken).handle(new ActionEvent());
