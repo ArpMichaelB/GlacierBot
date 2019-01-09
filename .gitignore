@@ -23,3 +23,13 @@ target/
 .reccomenders
 .recommenders
 *.properties
+pom.xml
+#Gradle
+*.gradle
+*.bat
+/.gradle
+/.settings
+/gradle
+gradlew
+build/
+!build.gradle
