@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -30,13 +31,13 @@ import sx.blah.discord.util.RequestBuffer;
 
 public class UtilsAndConstants {
 	public static String BOT_PREFIX = "~";
-	private static final String PROPERTIES_FILENAME = "discordbot.properties";
-	private String BOT_NAME = "glacierbot";
+	private static final String PROPERTIES_FILENAME = "discordbot_properties.json";
+	//TODO: actually write the startup GUI, maybe name the class differently
+	private static String BOT_NAME = StartupGUI.setBotName();
 	public static final String BEGINNING_PIECE_OF_URL = "http://www.youtube.com/watch?v=";
 	public static final double MENU_SIZE = 530;
 	public static final double MENU_SIZE_TWO = 145;
-	//TODO: make this a JSONArray over Properties
-	public static JSONArray properties = setupProperties();
+	public static JSONObject properties = setupProperties();
 	public static int MAX_ITEMS_TO_FETCH = 5;
 	//public static Logger logger = LoggerFactory.getLogger(App.class);
 	//I'm going to persist in using system.err for my logging because I don't need anything special
@@ -48,8 +49,8 @@ public class UtilsAndConstants {
 		setOutToLogFile();
 		setErrorToLogFile();
 	}
-	
-	public static JSONArray setupProperties()
+
+	public static JSONObject setupProperties()
 	{
 		try {
 			//The idea here is going to be, the file discordbots.json is going to contain an array, which then contains json objects, each object having the required properties
@@ -58,11 +59,25 @@ public class UtilsAndConstants {
 			//however we need to do something similar to project file creator to have the user input a bot name
 			//and select from existing bot names
 			//however I have like, 10 minutes left in my workday right now so it's not worth it to start
-        	File propertiesFile = new File(App.class.getResource(PROPERTIES_FILENAME).getFile());
+        	File propertiesFile = new File(File.listRoots()[0].toString()+"/Glacier Nester/properties/"+PROPERTIES_FILENAME);
             JSONParser parse = new JSONParser();
             
             JSONArray allProps = (JSONArray) parse.parse(new FileReader(propertiesFile));
-            //return properties;
+            JSONObject properties = new JSONObject();
+            allProps.forEach(prop ->{
+            	JSONObject temp = (JSONObject) prop;
+            	if(temp.get("name").equals(BOT_NAME))
+            	{
+            		properties = temp;
+            	}
+            });
+            if(properties.equals(new JSONObject()))
+            {
+            	String[] args = new String[0];
+            	ProjectFileCreator.launch(ProjectFileCreator.class,args);
+            	return null;
+            }
+            return properties;
         } catch (IOException e) {
             System.err.println("There was an error reading " + UtilsAndConstants.PROPERTIES_FILENAME + ": " + e.getCause()
                     + " : " + e.getMessage() + " at " + getCurrentTimestamp());

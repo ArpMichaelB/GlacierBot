@@ -18,8 +18,6 @@ public class App
 {
     public static void main( String[] args )
     {
-    	UtilsAndConstants.setupLogFiles();
-    	
     	if(UtilsAndConstants.properties == null)
     	{
     		System.err.println("Error, no properties file found. Cancelling launch at " + UtilsAndConstants.getCurrentTimestamp());
@@ -30,6 +28,8 @@ public class App
         	System.err.println("Error, no discord token found. Cancelling Launch at " + UtilsAndConstants.getCurrentTimestamp());
         	return;
         }
+    	UtilsAndConstants.setupLogFiles();
+    	
         
         IDiscordClient cli = UtilsAndConstants.getBuiltDiscordClient(UtilsAndConstants.properties.getProperty("discord.key"));
 
