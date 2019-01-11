@@ -26,7 +26,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class ProjectFileCreator extends Application {
-	//TODO: update this WHOLE thing to play nice with making a json file/adding a new bot to the file
 	@Override
 	public void start(Stage primaryStage)
 	{
@@ -122,7 +121,7 @@ class BuildFile implements EventHandler<ActionEvent>
 	@Override
 	public void handle(ActionEvent arg0) {
 		File storage = new File(File.listRoots()[0].toString()+"/Glacier Nester/properties/");
-		File discordProperties = new File(storage.getAbsolutePath()+"discordbot_properties.json");
+		File discordProperties = new File(storage.getAbsolutePath()+"/discordbot_properties.json");
 		try 
 		{
 			JSONArray allprops = new JSONArray();
@@ -135,6 +134,8 @@ class BuildFile implements EventHandler<ActionEvent>
 			if(!storage.exists())
 				storage.mkdirs();
 			boolean nyoom = false;
+			if(!discordProperties.exists())
+				discordProperties.createNewFile();
 			Scanner scan = new Scanner(new FileReader(discordProperties));
 			while(scan.hasNextLine())
 			{

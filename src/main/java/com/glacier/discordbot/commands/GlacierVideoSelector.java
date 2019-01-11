@@ -46,10 +46,10 @@ public class GlacierVideoSelector implements Command {
         	//however there isn't something that needs to be set each time the request is sent so it does nothing
         	YouTube.Search.List search =Youtube.search().list("id,snippet");
         	//we make a search:list object
-        	search.setKey(UtilsAndConstants.properties.getProperty("youtube.apikey"));
+        	search.setKey((String)UtilsAndConstants.properties.get("APIKey"));
         	search.setType("video");
         	search.setFields("items(id/videoId,snippet/title)");
-        	search.setChannelId(UtilsAndConstants.properties.getProperty("youtube.channelid"));
+        	search.setChannelId((String)UtilsAndConstants.properties.get("channelID"));
         	search.setQ(String.join(" ", arguments));
         	search.setMaxResults((long) UtilsAndConstants.MAX_ITEMS_TO_FETCH);
         	//then set it's properties appropriately

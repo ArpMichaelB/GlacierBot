@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,6 +23,7 @@ import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.vdurmont.emoji.Emoji;
 import com.vdurmont.emoji.EmojiManager;
 
+import javafx.stage.Stage;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
@@ -32,8 +35,8 @@ import sx.blah.discord.util.RequestBuffer;
 public class UtilsAndConstants {
 	public static String BOT_PREFIX = "~";
 	private static final String PROPERTIES_FILENAME = "discordbot_properties.json";
-	//TODO: actually write the startup GUI, maybe name the class differently
-	private static String BOT_NAME = StartupGUI.setBotName();
+	//TODO: actually write the startup GUI
+	private static String BOT_NAME = setBotName();
 	public static final String BEGINNING_PIECE_OF_URL = "http://www.youtube.com/watch?v=";
 	public static final double MENU_SIZE = 530;
 	public static final double MENU_SIZE_TWO = 145;
@@ -50,6 +53,10 @@ public class UtilsAndConstants {
 		setErrorToLogFile();
 	}
 
+	private static String setBotName() {
+		return (String) JOptionPane.showInputDialog("input a bot name");
+	}
+
 	public static JSONObject setupProperties()
 	{
 		try {
@@ -61,26 +68,36 @@ public class UtilsAndConstants {
 			//however I have like, 10 minutes left in my workday right now so it's not worth it to start
         	File propertiesFile = new File(File.listRoots()[0].toString()+"/Glacier Nester/properties/"+PROPERTIES_FILENAME);
             JSONParser parse = new JSONParser();
-            
+            if(!propertiesFile.exists())
+            {
+            	throw new NullPointerException("No properties file");
+            }
             JSONArray allProps = (JSONArray) parse.parse(new FileReader(propertiesFile));
-            JSONObject properties = new JSONObject();
+            ArrayList<JSONObject> prerps = new ArrayList<JSONObject>();
             allProps.forEach(prop ->{
             	JSONObject temp = (JSONObject) prop;
             	if(temp.get("name").equals(BOT_NAME))
             	{
-            		properties = temp;
+            		prerps.add(temp);
             	}
             });
-            if(properties.equals(new JSONObject()))
+            if(prerps.isEmpty())
             {
             	String[] args = new String[0];
             	ProjectFileCreator.launch(ProjectFileCreator.class,args);
             	return null;
             }
-            return properties;
+            else
+            {
+            	//it drives me bonkers to do this
+            	//but i wind up doing this a lot
+            	//because I need to have variables be "effectively final" to get to them in lambdas like for buttons
+            	return prerps.get(0);
+            }
         } catch (IOException e) {
             System.err.println("There was an error reading " + UtilsAndConstants.PROPERTIES_FILENAME + ": " + e.getCause()
                     + " : " + e.getMessage() + " at " + getCurrentTimestamp());
+            e.printStackTrace();
             return null;
         }
         catch(NullPointerException ex)
@@ -107,12 +124,12 @@ public class UtilsAndConstants {
     		logFolder.setWritable(true);
     		if(logFolder.mkdirs())
     		{
-    			file = new File(baseDrive + "Glacier Nester/logs/GlacierBot.log");
+    			file = new File(baseDrive + "Glacier Nester/logs/" + properties.get("name") +".log");
     		}
     	}
     	else
     	{
-    		file = new File(baseDrive + "Glacier Nester/logs/GlacierBot.log");
+    		file = new File(baseDrive + "Glacier Nester/logs/" + properties.get("name") +".log");
     	}
     	try {
 	    	FileOutputStream fos = new FileOutputStream(file);
@@ -136,12 +153,12 @@ public class UtilsAndConstants {
     		logFolder.setWritable(true);
     		if(logFolder.mkdirs())
     		{
-    			file = new File(baseDrive + "Glacier Nester/logs/GlacierBotErrors.log");
+    			file = new File(baseDrive + "Glacier Nester/logs/" + properties.get("name") +"Errors.log");
     		}
     	}
     	else
     	{
-    		file = new File(baseDrive + "Glacier Nester/logs/GlacierBotErrors.log");
+    		file = new File(baseDrive + "Glacier Nester/logs/" + properties.get("name") +"Errors.log");
     	}
     	try {
 	    	FileOutputStream fos = new FileOutputStream(file);

@@ -30,8 +30,7 @@ public class App
         }
     	UtilsAndConstants.setupLogFiles();
     	
-        
-        IDiscordClient cli = UtilsAndConstants.getBuiltDiscordClient(UtilsAndConstants.properties.getProperty("discord.key"));
+        IDiscordClient cli = UtilsAndConstants.getBuiltDiscordClient((String)UtilsAndConstants.properties.get("discordToken"));
 
         // Register a listener via the EventSubscriber annotation which allows for organisation and delegation of events
         cli.getDispatcher().registerListener(new CommandHandler());
