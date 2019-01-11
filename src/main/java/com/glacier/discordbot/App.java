@@ -23,7 +23,7 @@ public class App
     		System.err.println("Error, no properties file found. Cancelling launch at " + UtilsAndConstants.getCurrentTimestamp());
     		return;
     	}
-    	else if(!UtilsAndConstants.properties.containsKey("discord.key"))
+    	else if(!UtilsAndConstants.properties.containsKey("discordToken"))
         {
         	System.err.println("Error, no discord token found. Cancelling Launch at " + UtilsAndConstants.getCurrentTimestamp());
         	return;

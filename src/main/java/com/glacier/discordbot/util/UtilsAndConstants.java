@@ -1,6 +1,7 @@
 package com.glacier.discordbot.util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,21 +10,21 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.glacier.discordbot.App;
 import com.glacier.discordbot.handlers.CommandHandler;
 import com.glacier.discordbot.lavaplayer.GuildMusicManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.vdurmont.emoji.Emoji;
 import com.vdurmont.emoji.EmojiManager;
 
-import javafx.stage.Stage;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
@@ -35,7 +36,6 @@ import sx.blah.discord.util.RequestBuffer;
 public class UtilsAndConstants {
 	public static String BOT_PREFIX = "~";
 	private static final String PROPERTIES_FILENAME = "discordbot_properties.json";
-	//TODO: actually write the startup GUI
 	private static String BOT_NAME = setBotName();
 	public static final String BEGINNING_PIECE_OF_URL = "http://www.youtube.com/watch?v=";
 	public static final double MENU_SIZE = 530;
@@ -54,19 +54,44 @@ public class UtilsAndConstants {
 	}
 
 	private static String setBotName() {
-		return (String) JOptionPane.showInputDialog("input a bot name");
+		//TODO: add a radio button for existing bot names
+		JPanel panel = new JPanel();
+		panel.add(new JLabel("Existing Options"));
+		ArrayList<JLabel> existingNames = new ArrayList<JLabel>();
+		try 
+		{
+			JSONArray allProps = (JSONArray) new JSONParser().parse(new FileReader(new File(File.listRoots()[0].toString()+"/Glacier Nester/properties/"+PROPERTIES_FILENAME)));
+			allProps.forEach(ex ->{
+				existingNames.add(new JLabel((String)((JSONObject) ex).get("name")));
+			});
+		}
+		catch (FileNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		catch (ParseException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(JLabel b : existingNames)
+		{
+			panel.add(b);
+		}
+		String ret = (String) JOptionPane.showInputDialog(panel);
+		return ret;
 	}
 
 	public static JSONObject setupProperties()
 	{
 		try {
-			//The idea here is going to be, the file discordbots.json is going to contain an array, which then contains json objects, each object having the required properties
-			//i.e. the json object has a name for logs, the youtube api key, the youtube channel id, and the discord key
-			//potentially even an array of channel ids
-			//however we need to do something similar to project file creator to have the user input a bot name
-			//and select from existing bot names
-			//however I have like, 10 minutes left in my workday right now so it's not worth it to start
-        	File propertiesFile = new File(File.listRoots()[0].toString()+"/Glacier Nester/properties/"+PROPERTIES_FILENAME);
+			File propertiesFile = new File(File.listRoots()[0].toString()+"/Glacier Nester/properties/"+PROPERTIES_FILENAME);
             JSONParser parse = new JSONParser();
             if(!propertiesFile.exists())
             {
