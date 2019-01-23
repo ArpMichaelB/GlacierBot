@@ -35,6 +35,7 @@ public class CommandHandler {
     	commandMap.put("updatePrefix", new PrefixChanger());
     	commandMap.put("howMany", new HowManyChanger());
     	commandMap.put("grass", new GrassSender());
+    	commandMap.put("xyzzy", new XyzzyResponder());
     }
          
 	@EventSubscriber
