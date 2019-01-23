@@ -36,6 +36,10 @@ public class CommandHandler {
     	commandMap.put("howMany", new HowManyChanger());
     	commandMap.put("grass", new GrassSender());
     	commandMap.put("xyzzy", new XyzzyResponder());
+    	commandMap.put("plugh", new XyzzyResponder());
+    	//TODO: text aestheticiszer 
+    	//TODO: tm/ae/umlaut/etc
+    	//TODO: Cuddle (Aw, you're sweet, but I don't have a body)
     }
          
 	@EventSubscriber
