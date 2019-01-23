@@ -37,9 +37,9 @@ public class CommandHandler {
     	commandMap.put("grass", new GrassSender());
     	commandMap.put("xyzzy", new XyzzyResponder());
     	commandMap.put("plugh", new XyzzyResponder());
-    	//TODO: text aestheticiszer 
-    	//TODO: tm/ae/umlaut/etc
-    	//TODO: Cuddle (Aw, you're sweet, but I don't have a body)
+    	commandMap.put("symbols", new SymbolsGetter());
+    	commandMap.put("cuddle", new CuddleResponder());
+    	commandMap.put("fancify", new TextFancifier());
     }
          
 	@EventSubscriber
