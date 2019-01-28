@@ -29,6 +29,7 @@ public class ProjectFileCreator extends Application {
 	@Override
 	public void start(Stage primaryStage)
 	{
+		//TODO: update this to ask for the twitch channel ID, client ID (maybe, I might just get to use the existing client ID) and twitch key
 		HBox container = new HBox();
 		VBox inputs = new VBox();
 		HBox youtubeAPIKeyHolder = new HBox();
