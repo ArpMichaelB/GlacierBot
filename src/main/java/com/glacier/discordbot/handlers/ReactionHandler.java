@@ -37,12 +37,16 @@ public class ReactionHandler {
 	    	//if the reaction made isn't one of the valid buttons, ignore it
 	    	//if the message being reacted to isn't an embed, ignore it
 	    	int fieldToGet = UtilsAndConstants.translateFromEmoji(event.getReaction().getEmoji().getName());
-	    	String url = event.getMessage().getEmbeds().get(0).getEmbedFields().get(fieldToGet).getValue();
-	    	url = url.substring(url.indexOf("(")+1, url.lastIndexOf(")"));
-	    	//get the link based on what choice the user made
-	    	ArrayList<String> temp = new ArrayList<String>();
-	    	temp.add(url);
-	    	new OrdinaryPlayer().runCommand(new MessageReceivedEvent(event.getMessage()), temp);
+	    	if(event.getMessage().getEmbeds().get(0).getTitle().equalsIgnoreCase("Choose A Video"))
+	    	{
+	    		//i.e. if it's a list of videos to pick from
+		    	String url = event.getMessage().getEmbeds().get(0).getEmbedFields().get(fieldToGet).getValue();
+		    	url = url.substring(url.indexOf("(")+1, url.lastIndexOf(")"));
+		    	//get the link based on what choice the user made
+		    	ArrayList<String> temp = new ArrayList<String>();
+		    	temp.add(url);
+		    	new OrdinaryPlayer().runCommand(new MessageReceivedEvent(event.getMessage()), temp);
+    		}
     	}
     	catch(ArrayIndexOutOfBoundsException ex)
     	{
