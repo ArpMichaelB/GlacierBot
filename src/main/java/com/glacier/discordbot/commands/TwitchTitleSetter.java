@@ -43,16 +43,13 @@ public class TwitchTitleSetter implements Command {
 			put.addHeader("Accept", "application/vnd.twitchtv.v5+json");
 			put.addHeader("Client-ID", twitchClientID);
 			put.addHeader("Authorization","OAuth " + twitchKey);
-			//refresh token ho42o8o3eqefipy8b9doevpraxpvjxntdayj9nl1pglzgo82hr
 			put.addHeader("Content-Type","application/json");
 			String newTitle = "";
 			for(int i = 0; i<arguments.size(); i++)
 			{
 				newTitle+=arguments.get(i)+" ";
 			}
-	//		String newGame = "Reading Simulator";
 			String json = "{\"channel\":{\"status\":\""+ newTitle +"\"}}";
-			//\"game\":\""+ newGame + "\"}
 			StringEntity params = new StringEntity(json);
 			put.setEntity(params);
 			ResponseHandler<String> responseHandler = response -> {
