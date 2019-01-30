@@ -21,38 +21,22 @@ import com.glacier.discordbot.util.UtilsAndConstants;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;
+import sx.blah.discord.util.EmbedBuilder;
+import sx.blah.discord.util.RequestBuffer;
 
 public class TwitchTagsSetter implements Command {
 
 	@Override
 	public void runCommand(MessageReceivedEvent event, List<String> arguments) {
 		UtilsAndConstants.sendMessage(event.getChannel(), "Still working on it!");
-		//TODO: the below, and check for authorization for the person using the command
+		//TODO: find out how to allow this on click of the arrow button
 		if(!event.getAuthor().getPermissionsForGuild(event.getGuild()).contains(Permissions.ADMINISTRATOR) || !event.getAuthor().getPermissionsForGuild(event.getGuild()).contains(Permissions.MANAGE_SERVER))
 		{
 			return;
 		}
 		try {
-			//so the actual process needs to be as follows:
-			//pull tags
-			//then store our pagination value
-			//then send however many embedded messages are required for the batch of 20 (filtered to remove autoapplied tags) we've gotten
-			//then react to those two messages with the number buttons and the delete button (same as glacier command) 
-			//the last message also gets reacted to with a right arrow, and a checkmark 
-			//right arrow goes and fetches more tags
-			//checkmark applies all the stored tags
 			//reacting with the number buttons stores the tag in our pile of tags to apply
-			//if we have a pagination value passed as an argument we apply that to the request url
-			//otherwise we can just use an empty string as pagination
-			//below is the code that pulls the filtered sets of tags
-			//here still needs the code that builds/sends the embedded messages
-			//and the ReactionHandler needs to react with the buttons to those messages
-			//as well as handle the pressing of those buttons
-			//but I'm out of time today to do that
-			//so that code will happen tomorrow
-			//and providing a lack of wrinkles so will the update to project file creator
-			//I still need to check if I can use the same client id for all bots as well
-        	CloseableHttpClient client = HttpClients.createDefault();
+			CloseableHttpClient client = HttpClients.createDefault();
         	String pagination = "";
         	if(!arguments.isEmpty())
         	{
@@ -82,9 +66,7 @@ public class TwitchTagsSetter implements Command {
     			if(!((boolean)tag.get("is_auto")))
     			{
     				JSONObject tagToSend = new JSONObject();
-    				System.out.println(tag.get("tag_id"));
     				JSONObject names = (JSONObject) tag.get("localization_names");
-    				System.out.println(names.get("en-us"));
     				tagToSend.put("tag_id", tag.get("tag_id"));
     				tagToSend.put("name", names.get("en-us"));
     				//maybe have a setting command that picks the display language for a tag? idk
@@ -93,7 +75,39 @@ public class TwitchTagsSetter implements Command {
     		}
     		JSONObject cursor = (JSONObject) obj.get("pagination");
     		pagination = (String) cursor.get("cursor");
-    		//use tags list to build the embedded message
+    		ArrayList<EmbedBuilder> messages = new ArrayList<EmbedBuilder>();	
+			int marker = 0;
+			while(marker < tags.size()-1)
+			{
+				if(marker%10 == 0)
+				{
+					messages.add(new EmbedBuilder().withTitle("Tag Options").withDesc("Choose a tag to add.").withAuthorName("GlacierBot"));
+				}
+				for(;marker%10<=9 && marker<tags.size();marker++)
+				{
+					//I love the way this looks because it's SUCH minor arcana compared to how I use for loops normally
+					//basically for every 10 tags fill the last message in the list
+					//with those ten tags
+					EmbedBuilder message = messages.get(messages.size()-1);
+					message.appendField(((marker%10)+1) + "." + (String)tags.get(marker).get("name"),(String) tags.get(marker).get("tag_id"),false);
+					messages.set(messages.size()-1, message);
+				}
+			}
+			//fill the list of each message which contains up to 10 available tags
+			//it SHOULD only send up to 10, I mean, I tested for the first couple pages?
+			//I'll test every page once I get the right arrow working
+			EmbedBuilder temp = messages.get(messages.size()-1);
+			temp.withFooterText(pagination);
+			messages.set(messages.size()-1, temp);
+			//then add the pagination cursor to the last message
+			for(EmbedBuilder message : messages)
+			{
+				RequestBuffer.request(() -> event.getChannel().sendMessage(message.build()));
+				//like the video selector I'd normally call the utils send message method
+				//but it takes a string, not an embed object
+				//I should be a good noodle and just overload the method but that's effort and I only use it twice	
+			}
+			//then send each built message
 		} 
         catch (ClientProtocolException e) 
         {

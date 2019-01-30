@@ -3,6 +3,7 @@ package com.glacier.discordbot.handlers;
 import java.util.ArrayList;
 
 import com.glacier.discordbot.commands.OrdinaryPlayer;
+import com.glacier.discordbot.commands.TwitchTagsSetter;
 import com.glacier.discordbot.util.UtilsAndConstants;
 
 import sx.blah.discord.api.events.EventSubscriber;
@@ -28,8 +29,29 @@ public class ReactionHandler {
 	    	{
 	    		return;
 	    	}
+	    	if(event.getMessage().getEmbeds().get(0).getTitle().equalsIgnoreCase("Tag Options"))
+	    	{
+	    		System.out.println("here from " + event.getReaction().getEmoji().getName());
+		    	if(event.getReaction().getEmoji().equals(ReactionEmoji.of("✅")))
+		    	{
+		    		//TODO: wire this to actually work
+		    		//potentially, show the list of stored tags to confirm, since we can query for specific
+		    		//send the stored tags to twitch
+		    		System.out.println("checkmark");
+		    	}
+		    	if(event.getReaction().getEmoji().equals(ReactionEmoji.of("➡")))
+		    	{
+		    		//TODO: fix this
+		    		String pagination = event.getMessage().getEmbeds().get(0).getFooter().getText();
+		    		ArrayList<String> temp = new ArrayList<String>();
+			    	temp.add(pagination);
+			    	new TwitchTagsSetter().runCommand(new MessageReceivedEvent(event.getMessage()), temp);
+			    	//use the pagination cursor to call the twitch tags setter for the next message
+		    	}
+	    	}
 	    	if(!UtilsAndConstants.checkForValidChoice(event.getReaction().getEmoji().getName()))
 	    	{
+	    		//TODO: update checkForValidChoice to not care about checkmark or right arrow so we don't clutter the output
 	    		System.out.println("Invalid Choice of " + event.getReaction().getEmoji().getName());
 	    		return;
 	    	}
@@ -47,6 +69,13 @@ public class ReactionHandler {
 		    	temp.add(url);
 		    	new OrdinaryPlayer().runCommand(new MessageReceivedEvent(event.getMessage()), temp);
     		}
+	    	if(event.getMessage().getEmbeds().get(0).getTitle().equalsIgnoreCase("Tag Options"))
+	    	{
+	    		String tagID = event.getMessage().getEmbeds().get(0).getEmbedFields().get(fieldToGet).getValue();
+	    		//store the chosen tag's ID
+	    		//TODO: actually have this store the tag's id
+	    		System.out.println("Storing tag ID " + tagID);
+	    	}
     	}
     	catch(ArrayIndexOutOfBoundsException ex)
     	{
