@@ -56,8 +56,7 @@ public class TwitchGameSetter implements Command {
 	            if (status >= 200 && status < 300) {
 	                HttpEntity entity = response.getEntity();
 	                return entity != null ? EntityUtils.toString(entity) : null;
-	                //i hate ternary operators
-	                //I'll fix it if I ever get this to work
+	              //TODO: remove/document ternary operator
 	            } else {
 	            	UtilsAndConstants.sendMessage(event.getChannel(), "Having a little trouble, have the botowner check the logs!");
 	                throw new ClientProtocolException("Unexpected response status: " + status);

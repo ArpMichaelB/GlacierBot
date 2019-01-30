@@ -1,6 +1,7 @@
 package com.glacier.discordbot.commands;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -19,6 +20,7 @@ import com.glacier.discordbot.model.Command;
 import com.glacier.discordbot.util.UtilsAndConstants;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.obj.Permissions;
 
 public class TwitchTagsSetter implements Command {
 
@@ -26,6 +28,10 @@ public class TwitchTagsSetter implements Command {
 	public void runCommand(MessageReceivedEvent event, List<String> arguments) {
 		UtilsAndConstants.sendMessage(event.getChannel(), "Still working on it!");
 		//TODO: the below, and check for authorization for the person using the command
+		if(!event.getAuthor().getPermissionsForGuild(event.getGuild()).contains(Permissions.ADMINISTRATOR) || !event.getAuthor().getPermissionsForGuild(event.getGuild()).contains(Permissions.MANAGE_SERVER))
+		{
+			return;
+		}
 		try {
 			//so the actual process needs to be as follows:
 			//pull tags
@@ -48,6 +54,10 @@ public class TwitchTagsSetter implements Command {
 			//I still need to check if I can use the same client id for all bots as well
         	CloseableHttpClient client = HttpClients.createDefault();
         	String pagination = "";
+        	if(!arguments.isEmpty())
+        	{
+        		pagination = arguments.get(0);
+        	}
         	HttpGet get = new HttpGet("https://api.twitch.tv/helix/tags/streams?after="+pagination);
     		get.addHeader("Client-ID", "yye6c1ahafhtcafi5aagoij7uccfec");
     		ResponseHandler<String> responseHandler = response -> {
@@ -61,6 +71,7 @@ public class TwitchTagsSetter implements Command {
                 	throw new ClientProtocolException("Unexpected response status: " + status);
                 }
             };
+            ArrayList<JSONObject> tags = new ArrayList<JSONObject>();
         	String response = client.execute(get,responseHandler);
         	JSONParser parse = new JSONParser();
     		JSONObject obj = (JSONObject) parse.parse(response);
@@ -70,13 +81,19 @@ public class TwitchTagsSetter implements Command {
     			JSONObject tag = (JSONObject) objtag;
     			if(!((boolean)tag.get("is_auto")))
     			{
+    				JSONObject tagToSend = new JSONObject();
     				System.out.println(tag.get("tag_id"));
     				JSONObject names = (JSONObject) tag.get("localization_names");
     				System.out.println(names.get("en-us"));
+    				tagToSend.put("tag_id", tag.get("tag_id"));
+    				tagToSend.put("name", names.get("en-us"));
+    				//maybe have a setting command that picks the display language for a tag? idk
+    				tags.add(tagToSend);
     			}
     		}
     		JSONObject cursor = (JSONObject) obj.get("pagination");
     		pagination = (String) cursor.get("cursor");
+    		//use tags list to build the embedded message
 		} 
         catch (ClientProtocolException e) 
         {
