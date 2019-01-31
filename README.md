@@ -8,6 +8,16 @@
 3. The channel ID of the channel you wish to search. 
   The easiest way I've found to get that channel id is via this project: http://johnnythetank.github.io/youtube-channel-name-converter/
 
+### Optional Items
+
+1. Twitch Channel ID: You can find this in the twitch settings, specifically under connections, in the League of Legends section, copy the numbers after "ttv-".
+2. Twitch OAuth Key: Pull this from the site: https://twitchtokengenerator.com/, On opening the site choose the custom scope option. We require the following scopes:
+* v5
+	* channel_editor
+* Helix
+	* user:edit:broadcast
+###### These aren't required, like the above items. Leave the fields blank if you aren't going to use it.
+
 ### Properties File
 
 
@@ -15,23 +25,31 @@ Now I hear you.
 >What am I going to do now that I have these things?
 
 Well, that's exceedingly simple! Just open up the program, and there'll be a handy dandy wizard that lets you fill in those three items. Once you click the button, just close the window, and try running the jar again, it should be working properly at this point!
+
+New to the 2.0 release: You can now run multiple instances of the bot on the same machine! This is allowed by you choosing the bot's settings you wish to run the jar with on open. If you haven't defined a bot's settings yet, just close this new window and you'll get the handy dandy wizard like before!
   
 ### Commands
 
 Currently, the list of available commands are as follows: 
 
-* ~say <args> 
+* ~say `<args>` 
     * repeats whatever you put after the command
 * ~join 
     * has the bot join the voice channel you're in
 * ~leave
     * has the bot leave the voice channel it's in
-* ~play <args> 
+* ~play `<args>` 
     * has the bot try to play the link you hand it (Supported types are Youtube, SoundCloud, Bandcamp, Vimeo, Twitch streams, and some HTTP URLs)
-* ~glacier <args> 
+* ~glacier `<args>` 
     * searches the channel id you gave it in the properties file, for the arguments you give the command.
-* ~skip <args> 
+* ~skip `<args>` 
     * skips the number of tracks you ask for, or just one if you don't add any arguments
+* ~twitchTitle `<args>`
+	* Anything you put after this command will be set as your title for the twitch channel chosen on creation
+* ~twitchGame `<args>`
+	* Anything you put after this command will be set as your game for the twitch channel chosen on creation 
+* ~twitchTitle
+	* Opens a fancy menu to pick twitch tags. Since you're limited to five tags, it's handled like a queue (i.e. when you add one more, the earliest one you chose is removed.) Hit the right arrow for the next page, and checkmark to submit.
 * ~naptime 
     * Closes the process that's running the bot, "putting him to sleep", so to speak
 
@@ -50,6 +68,6 @@ The youtube API allows one to limit search results to a specific channel, even i
 
 So, this bot is my attempts at creating that automated response system, not to mention an exercise in learning to use new API. 
 
-I'll include the link to invite the bot in this description, once I have the bot set up to a point that I'd consider complete.
+If you'd like to include this bot in your server, there's a jar file in the releases folder that you as a user can run, provided you have the required properties. 
 
-For now, if you'd like to include this bot in your server, there's a jar file in the releases folder that you as a user can run, provided you have the required properties. 
+Unfortunately I can't invite my personal instance of this bot to any servers other than my own, since it can handle my twitch data, and I have to keep that secure, to avoid potential vandalism. Thank you for your understanding!

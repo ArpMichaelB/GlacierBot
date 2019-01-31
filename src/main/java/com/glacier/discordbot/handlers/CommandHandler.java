@@ -40,6 +40,9 @@ public class CommandHandler {
     	commandMap.put("symbols", new SymbolsGetter());
     	commandMap.put("cuddle", new CuddleResponder());
     	commandMap.put("fancify", new TextFancifier());
+    	commandMap.put("twitchGame", new TwitchGameSetter());
+    	commandMap.put("twitchTitle", new TwitchTitleSetter());
+    	commandMap.put("twitchTags", new TwitchTagsGetter());
     }
          
 	@EventSubscriber

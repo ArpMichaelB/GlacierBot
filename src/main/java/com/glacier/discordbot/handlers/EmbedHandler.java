@@ -27,7 +27,7 @@ public class EmbedHandler {
     			//if the message that was edited isn't an embedded message, do nothing
     		}
     		IEmbed embeddedMessage = message.getEmbeds().get(0);
-    		if(embeddedMessage.getTitle().equals("Choose a Video"))
+    		if(embeddedMessage.getTitle().equals("Choose a Video") || embeddedMessage.getTitle().equals("Tag Options"))
     		{
     			//if the embedded message's first field contains the right title
     			//run through the whole thing and react with the appropriate reactions
@@ -42,6 +42,14 @@ public class EmbedHandler {
 	    			counter++;
 				}
 	    		UtilsAndConstants.reactToMessage(message, EmojiManager.getForAlias("x"));
+    		}
+    		if(embeddedMessage.getTitle().equals("Tag Options"))
+    		{
+    			UtilsAndConstants.reactToMessage(message, EmojiManager.getForAlias("white_check_mark"));
+    			if(!embeddedMessage.getFooter().getText().isEmpty())
+    			{
+    				UtilsAndConstants.reactToMessage(message, EmojiManager.getForAlias("arrow_right"));
+    			}
     		}
     	}
     }
