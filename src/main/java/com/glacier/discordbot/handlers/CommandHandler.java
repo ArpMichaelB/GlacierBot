@@ -6,15 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.glacier.discordbot.commands.GlacierVideoSelector;
-import com.glacier.discordbot.commands.GoodNight;
-import com.glacier.discordbot.commands.HowManyChanger;
-import com.glacier.discordbot.commands.JoinUser;
-import com.glacier.discordbot.commands.LeaveUser;
-import com.glacier.discordbot.commands.OrdinaryPlayer;
-import com.glacier.discordbot.commands.PrefixChanger;
-import com.glacier.discordbot.commands.SkipTrack;
-import com.glacier.discordbot.commands.TalkBack;
+import com.glacier.discordbot.commands.*;
 import com.glacier.discordbot.lavaplayer.GuildMusicManager;
 import com.glacier.discordbot.model.Command;
 import com.glacier.discordbot.util.UtilsAndConstants;
@@ -42,6 +34,15 @@ public class CommandHandler {
     	commandMap.put("naptime",new GoodNight());
     	commandMap.put("updatePrefix", new PrefixChanger());
     	commandMap.put("howMany", new HowManyChanger());
+    	commandMap.put("grass", new GrassSender());
+    	commandMap.put("xyzzy", new XyzzyResponder());
+    	commandMap.put("plugh", new XyzzyResponder());
+    	commandMap.put("symbols", new SymbolsGetter());
+    	commandMap.put("cuddle", new CuddleResponder());
+    	commandMap.put("fancify", new TextFancifier());
+    	commandMap.put("twitchGame", new TwitchGameSetter());
+    	commandMap.put("twitchTitle", new TwitchTitleSetter());
+    	commandMap.put("twitchTags", new TwitchTagsGetter());
     }
          
 	@EventSubscriber
