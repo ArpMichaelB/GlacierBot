@@ -28,7 +28,6 @@ public class TwitchTagsGetter implements Command {
 
 	@Override
 	public void runCommand(MessageReceivedEvent event, List<String> arguments) {
-		UtilsAndConstants.sendMessage(event.getChannel(), "Still working on it!");
 		if(event.getAuthor().getClient().getOurUser().equals(event.getAuthor()))
 		//usually I just say event.getclient.getouruser but I think 
 		//because I'm calling this by declaring a new instance of this

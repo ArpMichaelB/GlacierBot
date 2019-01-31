@@ -38,8 +38,8 @@ public class UtilsAndConstants {
 	private static final String PROPERTIES_FILENAME = "discordbot_properties.json";
 	private static String BOT_NAME = setBotName();
 	public static final String BEGINNING_PIECE_OF_URL = "http://www.youtube.com/watch?v=";
-	public static final double MENU_SIZE = 530;
-	public static final double MENU_SIZE_TWO = 145;
+	public static final double MENU_SIZE = 620;
+	public static final double MENU_SIZE_TWO = 240;
 	public static JSONObject properties = setupProperties();
 	public static int MAX_ITEMS_TO_FETCH = 5;
 	//public static Logger logger = LoggerFactory.getLogger(App.class);

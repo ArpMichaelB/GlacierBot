@@ -31,7 +31,7 @@ public class TwitchTitleSetter implements Command {
 		try 
 		{
 			String twitchChannelID = (String) UtilsAndConstants.properties.getOrDefault("twitchChannelID", "adefaultvalue");
-			String twitchClientID = (String) UtilsAndConstants.properties.getOrDefault("twitchClientID", "adefaultvalue");
+			String twitchClientID = "yye6c1ahafhtcafi5aagoij7uccfec";
 			String twitchKey = (String) UtilsAndConstants.properties.getOrDefault("twitchKey", "adefaultvalue");
 			if(twitchChannelID.equals("adefaultvalue") || twitchClientID.equals("adefaultvalue") || twitchKey.equals("adefaultvalue"))
 			{
