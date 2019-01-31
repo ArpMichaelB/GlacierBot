@@ -46,6 +46,34 @@ public class UtilsAndConstants {
 	//I'm going to persist in using system.err for my logging because I don't need anything special
 	//additionally adding this logger didn't solve the "Defaulting to slf4j" whatnot it screms about
 	//so I'm not going to include it, just leave this commented in line as a reminder to sort out how to fix this
+	private static ArrayList<String> tagIDs = new ArrayList<String>();
+	
+	
+	public static ArrayList<String> getSavedTags()
+	{
+		return tagIDs;
+	}
+	
+	public static void addSavedTag(String tag)
+	{
+		if(tagIDs.size()<5)
+		{
+			tagIDs.add(tag);
+		}
+		else
+		{
+			ArrayList<String> temp = new ArrayList<String>();
+			for(int i = 1; i<tagIDs.size();i++)
+			{
+				temp.add(tagIDs.get(i));
+			}
+			tagIDs.set(0, tag);
+			for(int i = 0; i<temp.size();i++)
+			{
+				tagIDs.set(i+1, temp.get(i));
+			}
+		}
+	}
 	
 	public static void setupLogFiles()
 	{
@@ -54,7 +82,6 @@ public class UtilsAndConstants {
 	}
 
 	private static String setBotName() {
-		//TODO: add a radio button for existing bot names
 		JPanel panel = new JPanel();
 		panel.add(new JLabel("Existing Options"));
 		ArrayList<JLabel> existingNames = new ArrayList<JLabel>();
@@ -327,7 +354,7 @@ public class UtilsAndConstants {
 
 	private static ArrayList<String> validChoices() {
 		ArrayList<String> ret = new ArrayList<String>();
-		for(int i = 0; i<10;i++)
+		for(int i = 0; i<=10;i++)
 		{
 			ret.add(EmojiManager.getForAlias(translateToEmoji(i)).getUnicode());
 		}

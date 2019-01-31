@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import com.glacier.discordbot.commands.OrdinaryPlayer;
 import com.glacier.discordbot.commands.TwitchTagsSetter;
+import com.glacier.discordbot.commands.TwitchTagsGetter;
 import com.glacier.discordbot.util.UtilsAndConstants;
 
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.ReactionEvent;
 import sx.blah.discord.handle.impl.obj.ReactionEmoji;
+import sx.blah.discord.handle.obj.Permissions;
 
 public class ReactionHandler {
 	@EventSubscriber
@@ -31,20 +33,20 @@ public class ReactionHandler {
 	    	}
 	    	if(event.getMessage().getEmbeds().get(0).getTitle().equalsIgnoreCase("Tag Options"))
 	    	{
-	    		System.out.println("here from " + event.getReaction().getEmoji().getName());
-		    	if(event.getReaction().getEmoji().equals(ReactionEmoji.of("✅")))
+	    		if(event.getReaction().getEmoji().equals(ReactionEmoji.of("✅")))
 		    	{
-		    		//TODO: wire this to actually work
-		    		//potentially, show the list of stored tags to confirm, since we can query for specific tags
-		    		//send the stored tags to twitch
-		    		System.out.println("checkmark");
+		    		if(event.getUser().getPermissionsForGuild(event.getGuild()).contains(Permissions.MANAGE_SERVER) || event.getUser().getPermissionsForGuild(event.getGuild()).contains(Permissions.ADMINISTRATOR))
+		    		{
+		    			new TwitchTagsSetter().runCommand(new MessageReceivedEvent(event.getMessage()), UtilsAndConstants.getSavedTags());
+		    			UtilsAndConstants.sendMessage(event.getChannel(), "Tags set, go check it out!");
+		    		}
 		    	}
 		    	if(event.getReaction().getEmoji().equals(ReactionEmoji.of("➡")))
 		    	{
 		    		String pagination = event.getMessage().getEmbeds().get(0).getFooter().getText();
 		    		ArrayList<String> temp = new ArrayList<String>();
 			    	temp.add(pagination);
-			    	new TwitchTagsSetter().runCommand(new MessageReceivedEvent(event.getMessage()), temp);
+			    	new TwitchTagsGetter().runCommand(new MessageReceivedEvent(event.getMessage()), temp);
 			    	//use the pagination cursor to call the twitch tags setter for the next message
 		    	}
 	    	}
@@ -76,8 +78,7 @@ public class ReactionHandler {
 	    	{
 	    		String tagID = event.getMessage().getEmbeds().get(0).getEmbedFields().get(fieldToGet).getValue();
 	    		//store the chosen tag's ID
-	    		//TODO: actually have this store the tag's id
-	    		System.out.println("Storing tag ID " + tagID);
+	    		UtilsAndConstants.addSavedTag(tagID);
 	    	}
     	}
     	catch(ArrayIndexOutOfBoundsException ex)

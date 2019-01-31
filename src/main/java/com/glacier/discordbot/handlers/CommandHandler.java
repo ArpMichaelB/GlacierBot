@@ -42,7 +42,7 @@ public class CommandHandler {
     	commandMap.put("fancify", new TextFancifier());
     	commandMap.put("twitchGame", new TwitchGameSetter());
     	commandMap.put("twitchTitle", new TwitchTitleSetter());
-    	commandMap.put("twitchTags", new TwitchTagsSetter());
+    	commandMap.put("twitchTags", new TwitchTagsGetter());
     }
          
 	@EventSubscriber
