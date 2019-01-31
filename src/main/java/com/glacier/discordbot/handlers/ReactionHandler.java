@@ -25,7 +25,7 @@ public class ReactionHandler {
 	    		event.getMessage().delete();
 	    		return;
 	    	}
-	    	if(event.getCount() <1 || event.getCount() == 2)
+	    	if(event.getCount() <1 || event.getCount() < 2)
 	    	{
 	    		return;
 	    	}
@@ -35,13 +35,12 @@ public class ReactionHandler {
 		    	if(event.getReaction().getEmoji().equals(ReactionEmoji.of("✅")))
 		    	{
 		    		//TODO: wire this to actually work
-		    		//potentially, show the list of stored tags to confirm, since we can query for specific
+		    		//potentially, show the list of stored tags to confirm, since we can query for specific tags
 		    		//send the stored tags to twitch
 		    		System.out.println("checkmark");
 		    	}
 		    	if(event.getReaction().getEmoji().equals(ReactionEmoji.of("➡")))
 		    	{
-		    		//TODO: fix this
 		    		String pagination = event.getMessage().getEmbeds().get(0).getFooter().getText();
 		    		ArrayList<String> temp = new ArrayList<String>();
 			    	temp.add(pagination);
@@ -51,7 +50,11 @@ public class ReactionHandler {
 	    	}
 	    	if(!UtilsAndConstants.checkForValidChoice(event.getReaction().getEmoji().getName()))
 	    	{
-	    		//TODO: update checkForValidChoice to not care about checkmark or right arrow so we don't clutter the output
+	    		if(event.getMessage().getEmbeds().get(0).getTitle().equalsIgnoreCase("Tag Options") && (event.getReaction().getEmoji().equals(ReactionEmoji.of("✅"))||event.getReaction().getEmoji().equals(ReactionEmoji.of("➡"))))
+	    		//i.e. if it's the message that allows right arrow or checkmark, the choice actually _is_ valid
+	    		{
+	    			return;
+	    		}
 	    		System.out.println("Invalid Choice of " + event.getReaction().getEmoji().getName());
 	    		return;
 	    	}

@@ -29,8 +29,16 @@ public class TwitchTagsSetter implements Command {
 	@Override
 	public void runCommand(MessageReceivedEvent event, List<String> arguments) {
 		UtilsAndConstants.sendMessage(event.getChannel(), "Still working on it!");
-		//TODO: find out how to allow this on click of the arrow button
-		if(!event.getAuthor().getPermissionsForGuild(event.getGuild()).contains(Permissions.ADMINISTRATOR) || !event.getAuthor().getPermissionsForGuild(event.getGuild()).contains(Permissions.MANAGE_SERVER))
+		if(event.getAuthor().getClient().getOurUser().equals(event.getAuthor()))
+		//usually I just say event.getclient.getouruser but I think 
+		//because I'm calling this by declaring a new instance of this
+		//rather than using the instance that it's called with
+		//we have to get the client from the author
+		//to have the right user
+		{
+			System.out.println("Called from next arrow");
+		}
+		else if(!event.getAuthor().getPermissionsForGuild(event.getGuild()).contains(Permissions.ADMINISTRATOR) || !event.getAuthor().getPermissionsForGuild(event.getGuild()).contains(Permissions.MANAGE_SERVER))
 		{
 			return;
 		}
@@ -82,8 +90,12 @@ public class TwitchTagsSetter implements Command {
 				if(marker%10 == 0)
 				{
 					messages.add(new EmbedBuilder().withTitle("Tag Options").withDesc("Choose a tag to add.").withAuthorName("GlacierBot"));
+					EmbedBuilder message = messages.get(messages.size()-1);
+					message.appendField(((marker%10)+1) + "." + (String)tags.get(marker).get("name"),(String) tags.get(marker).get("tag_id"),false);
+					messages.set(messages.size()-1, message);
+					marker++;
 				}
-				for(;marker%10<=9 && marker<tags.size();marker++)
+				for(;marker%10<=9 && marker<tags.size() && marker%10!=0;marker++)
 				{
 					//I love the way this looks because it's SUCH minor arcana compared to how I use for loops normally
 					//basically for every 10 tags fill the last message in the list
@@ -93,9 +105,12 @@ public class TwitchTagsSetter implements Command {
 					messages.set(messages.size()-1, message);
 				}
 			}
+			if(marker == 0)
+			{
+				UtilsAndConstants.sendMessage(event.getChannel(), "No more tags, pick from what you've got!");
+				return;
+			}
 			//fill the list of each message which contains up to 10 available tags
-			//it SHOULD only send up to 10, I mean, I tested for the first couple pages?
-			//I'll test every page once I get the right arrow working
 			EmbedBuilder temp = messages.get(messages.size()-1);
 			temp.withFooterText(pagination);
 			messages.set(messages.size()-1, temp);
